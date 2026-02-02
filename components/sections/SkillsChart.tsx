@@ -126,7 +126,9 @@ export function SkillsChart({ skills }: SkillsChartProps) {
                       position="right"
                       offset={4}
                       className="fill-foreground text-[10px] font-medium"
-                      formatter={(value) => `${Number(value ?? 0)}%`}
+                      formatter={(value: number | string | null | undefined) =>
+                        `${Number(value ?? 0)}%`
+                      }
                     />
                   </Bar>
                 </BarChart>

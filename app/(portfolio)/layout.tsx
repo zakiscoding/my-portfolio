@@ -14,7 +14,6 @@ import SidebarToggle from "@/components/SidebarToggle";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,9 +33,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-    
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body

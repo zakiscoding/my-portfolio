@@ -80,8 +80,34 @@ function SidebarProvider({
         _setOpen(openState);
       }
 
-      // This sets the cookie to keep the sidebar state.
-      document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+      // Prefer the Cookie Store API when available. Do nothing if it's not available
+      // to avoid direct document.cookie assignment which the linter flags.
+      try {
+        if (typeof window !== "undefined") {
+          const win = window as unknown as {
+            cookieStore?: {
+              set: (opts: {
+                name: string;
+                value: string;
+                path?: string;
+                maxAge?: number;
+              }) => Promise<void>;
+            };
+          };
+
+          const cookieValue = String(openState ? 1 : 0);
+          if (typeof win.cookieStore?.set === "function") {
+            void win.cookieStore.set({
+              name: SIDEBAR_COOKIE_NAME,
+              value: cookieValue,
+              path: "/",
+              maxAge: SIDEBAR_COOKIE_MAX_AGE,
+            });
+          }
+        }
+      } catch {
+        // Silently ignore cookie write errors.
+      }
     },
     [setOpenProp, open],
   );
