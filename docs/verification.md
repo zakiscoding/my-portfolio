@@ -5,7 +5,7 @@ Verified on Windows with Node.js 24.19.0, pnpm 10, the frozen dependency lockfil
 | Check | Result |
 | --- | --- |
 | `pnpm typecheck` | Passed |
-| `pnpm lint` | Passed, Biome checked 95 files |
+| `pnpm lint` | Passed, Biome checked 96 files |
 | `pnpm test` | Passed, 5 contact-validation tests |
 | `pnpm build` | Passed, production routes generated including `/studio` |
 | `git diff --check` | Passed |
@@ -21,6 +21,12 @@ Verified on Windows with Node.js 24.19.0, pnpm 10, the frozen dependency lockfil
 Browser checks used Chromium through Playwright and `@axe-core/playwright` installed into a temporary QA directory, separate from project dependencies. Production `next start` was used for the final checks. Reviewed desktop/mobile project screenshots visually. The QuickBite screenshot committed in `public/projects/` is an authentic direct capture of its public sign-in page.
 
 The test runner emits Node's non-failing module-type detection warning for the imported TypeScript validation file; all tests pass. There was no existing automated test suite or ESLint setup. The repository's existing Biome lint workflow was retained, with generated Sanity files excluded and LF line endings enforced across platforms.
+
+## Visual consistency follow-up
+
+Reviewed the live local hero, certifications and contact sections at desktop and mobile sizes. Removed the empty hero image column when no image exists, repeated introduction text, mismatched certificate styling/skill tags, and oversized contact-map layout. A shared section heading now controls typography and spacing, card radii are aligned, contact controls use readable text sizes, and hero/contact icons share one style. Certifications retain CMS identity and issue metadata and the Comet hover effect, without unrelated skill references or unverified expiry assertions. Added Certifications to navigation and distinguish merged/open PR badges visually.
+
+Reduced-motion text is visible on the first render, Comet tilt respects reduced motion, and theme-menu hydration no longer produces mismatched generated IDs. Repeated the browser assertions at 320–1440px, expanded-project light/dark axe scans, mobile chat scan, contact failure/input retention and mobile navigation checks: passed with zero console/page errors. The local development server remains available for review.
 
 ## Remaining configuration and verification limits
 

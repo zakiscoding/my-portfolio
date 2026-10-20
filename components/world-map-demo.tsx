@@ -3,8 +3,8 @@ import WorldMap from "@/components/ui/world-map";
 
 export default function WorldMapDemo() {
   return (
-    <div className="w-full px-6 pb-12">
-      <div className="container mx-auto max-w-6xl">
+    <div className="w-full pt-6">
+      <div className="mx-auto max-w-lg">
         <WorldMap
           dots={[
             {

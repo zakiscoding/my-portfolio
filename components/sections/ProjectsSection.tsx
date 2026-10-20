@@ -5,10 +5,11 @@ import {
   type Project,
   secondaryProjects,
 } from "@/lib/portfolio";
+import { SectionHeading } from "./SectionHeading";
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group bg-card border rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col min-w-0">
+    <article className="group bg-card border rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col min-w-0">
       {project.preview ? (
         <div className="relative aspect-video bg-muted overflow-hidden">
           <Image
@@ -86,15 +87,10 @@ export function ProjectsSection() {
   return (
     <section id="projects" className="py-20 px-6 bg-muted/30">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Featured Projects
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Backend systems, infrastructure, and applied AI, with contributions
-            linked to the code.
-          </p>
-        </div>
+        <SectionHeading
+          title="Featured Projects"
+          description="Backend systems, infrastructure, and applied AI, with contributions linked to the code."
+        />
         <div className="@container">
           <div className="grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-3 gap-6">
             {featuredProjects.map((project) => (

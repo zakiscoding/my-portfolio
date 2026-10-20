@@ -1,17 +1,14 @@
 import { experiences } from "@/lib/portfolio";
+import { SectionHeading } from "./SectionHeading";
 
 export function ExperienceSection() {
   return (
     <section id="experience" className="py-20 px-6">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Work Experience
-          </h2>
-          <p className="text-xl text-muted-foreground">
-            Systems, reliability, software, and AI engineering
-          </p>
-        </div>
+        <SectionHeading
+          title="Work Experience"
+          description="Systems, reliability, software, and AI engineering"
+        />
         <div className="space-y-8">
           {experiences.map((experience) => (
             <article
@@ -19,7 +16,7 @@ export function ExperienceSection() {
               className="relative pl-6 md:pl-8 pb-8 border-l-2 border-muted last:border-l-0"
             >
               <div className="absolute -left-2.25 top-0 w-4 h-4 rounded-full bg-primary border-4 border-background" />
-              <div className="bg-card border rounded-lg p-5 md:p-6 hover:shadow-lg transition-shadow">
+              <div className="bg-card border rounded-xl p-5 md:p-6 hover:shadow-lg transition-shadow">
                 <div className="flex flex-col md:flex-row md:justify-between gap-2 mb-4">
                   <div>
                     <h3 className="text-xl md:text-2xl font-semibold">

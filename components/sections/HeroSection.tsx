@@ -1,3 +1,4 @@
+import { CheckCircle2, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 import { defineQuery } from "next-sanity";
 import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
@@ -41,7 +42,9 @@ export async function HeroSection() {
 
       <div className="relative z-10 container mx-auto max-w-6xl">
         <div className="@container">
-          <div className="grid grid-cols-1 @3xl:grid-cols-2 gap-8 @lg:gap-12 items-center">
+          <div
+            className={`grid grid-cols-1 gap-8 @lg:gap-12 items-center ${profile.profileImage ? "@3xl:grid-cols-2" : "max-w-4xl"}`}
+          >
             {/* Text Content */}
             <div className="@container/hero space-y-4 @md/hero:space-y-6">
               <h1 className="text-4xl @md/hero:text-5xl @lg/hero:text-7xl font-bold tracking-tight">
@@ -112,20 +115,32 @@ export async function HeroSection() {
               <div className="flex flex-wrap gap-4 @md/hero:gap-6 pt-4 text-xs @md/hero:text-sm text-muted-foreground">
                 {profile.email && (
                   <div className="flex items-center gap-2">
-                    <span>📧</span>
-                    <span className="truncate">{profile.email}</span>
+                    <Mail aria-hidden="true" className="size-4 shrink-0" />
+                    <a
+                      href={`mailto:${profile.email}`}
+                      className="break-all hover:underline"
+                    >
+                      {profile.email}
+                    </a>
                   </div>
                 )}
                 {profile.location && (
                   <div className="flex items-center gap-2">
-                    <span>📍</span>
+                    <MapPin aria-hidden="true" className="size-4 shrink-0" />
                     <span>{profile.location}</span>
                   </div>
                 )}
                 {profile.availability && (
                   <div className="flex items-center gap-2">
-                    <span>✅</span>
-                    <span>{profile.availability}</span>
+                    <CheckCircle2
+                      aria-hidden="true"
+                      className="size-4 shrink-0"
+                    />
+                    <span>
+                      {profile.availability === "open"
+                        ? "Open to opportunities"
+                        : profile.availability}
+                    </span>
                   </div>
                 )}
               </div>
