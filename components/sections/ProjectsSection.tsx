@@ -1,28 +1,88 @@
+import { ArrowUpRight, Code2 } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { defineQuery } from "next-sanity";
-import { urlFor } from "@/sanity/lib/image";
-import { sanityFetch } from "@/sanity/lib/live";
+import {
+  featuredProjects,
+  type Project,
+  secondaryProjects,
+} from "@/lib/portfolio";
 
-const PROJECTS_QUERY =
-  defineQuery(`*[_type == "project" && featured == true] | order(order asc)[0...6]{
-  title,
-  slug,
-  tagline,
-  category,
-  liveUrl,
-  githubUrl,
-  coverImage,
-  technologies[]->{name, category, color}
-}`);
+function ProjectCard({ project }: { project: Project }) {
+  return (
+    <article className="group bg-card border rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col min-w-0">
+      {project.preview ? (
+        <div className="relative aspect-video bg-muted overflow-hidden">
+          <Image
+            src={project.preview.src}
+            alt={project.preview.alt}
+            fill
+            sizes="(min-width: 1280px) 360px, (min-width: 768px) 50vw, 100vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      ) : (
+        <div
+          aria-hidden="true"
+          className="h-20 px-6 flex items-center justify-between bg-primary/5 border-b"
+        >
+          <Code2 className="h-7 w-7 text-primary/60" />
+          <span className="text-xs font-mono text-foreground/80">
+            {project.id}
+          </span>
+        </div>
+      )}
+      <div className="p-5 md:p-6 flex flex-col flex-1 gap-4">
+        <div>
+          <p className="text-xs text-primary mb-2">{project.category}</p>
+          <h3 className="text-xl font-semibold mb-3">{project.name}</h3>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            {project.description}
+          </p>
+        </div>
+        {project.technologies.length > 0 && (
+          <ul aria-label="Technologies" className="flex flex-wrap gap-1.5">
+            {project.technologies.map((technology) => (
+              <li
+                key={technology}
+                className="text-xs px-2 py-1 rounded-md bg-muted"
+              >
+                {technology}
+              </li>
+            ))}
+          </ul>
+        )}
+        {project.accomplishments.length > 0 && (
+          <ul className="list-disc pl-4 space-y-2 text-sm text-muted-foreground leading-relaxed">
+            {project.accomplishments.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        )}
+        {project.note && (
+          <p className="text-xs text-muted-foreground border-l-2 border-primary/40 pl-3 leading-relaxed">
+            {project.note}
+          </p>
+        )}
+        <div className="flex flex-wrap gap-2 mt-auto pt-3">
+          {project.links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.name}: ${link.label} (opens in new tab)`}
+              className="inline-flex items-center gap-1.5 text-sm px-3 py-2 border rounded-lg hover:bg-accent transition-colors"
+            >
+              {link.label}
+              <ArrowUpRight aria-hidden="true" className="h-3.5 w-3.5" />
+            </a>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
 
-export async function ProjectsSection() {
-  const { data: projects } = await sanityFetch({ query: PROJECTS_QUERY });
-
-  if (!projects || projects.length === 0) {
-    return null;
-  }
-
+export function ProjectsSection() {
   return (
     <section id="projects" className="py-20 px-6 bg-muted/30">
       <div className="container mx-auto max-w-6xl">
@@ -30,104 +90,31 @@ export async function ProjectsSection() {
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Featured Projects
           </h2>
-          <p className="text-xl text-muted-foreground">Some of my best work</p>
+          <p className="text-lg text-muted-foreground">
+            Backend systems, infrastructure, and applied AI, with contributions
+            linked to the code.
+          </p>
         </div>
-
         <div className="@container">
-          <div className="grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <div
-                key={project.slug?.current}
-                className="@container/card group bg-card border rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-              >
-                {/* Project Image */}
-                {project.coverImage && (
-                  <div className="relative aspect-video overflow-hidden bg-muted">
-                    <Image
-                      src={urlFor(project.coverImage)
-                        .width(600)
-                        .height(400)
-                        .url()}
-                      alt={project.title || "Project image"}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    {/* Glass overlay that fades on hover */}
-                    <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px] group-hover:opacity-0 transition-opacity duration-300" />
-                  </div>
-                )}
-
-                {/* Project Content */}
-                <div className="p-4 @md/card:p-6 space-y-3 @md/card:space-y-4">
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      {project.category && (
-                        <span className="text-xs px-2 py-0.5 @md/card:py-1 rounded-full bg-primary/10 text-primary">
-                          {project.category}
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="text-lg @md/card:text-xl font-semibold mb-2 line-clamp-2">
-                      {project.title || "Untitled Project"}
-                    </h3>
-                    <p className="text-muted-foreground text-xs @md/card:text-sm line-clamp-2">
-                      {project.tagline}
-                    </p>
-                  </div>
-
-                  {/* Tech Stack */}
-                  {project.technologies && project.technologies.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 @md/card:gap-2">
-                      {project.technologies.slice(0, 4).map((tech, idx) => {
-                        const techData =
-                          tech && typeof tech === "object" && "name" in tech
-                            ? tech
-                            : null;
-                        return techData?.name ? (
-                          <span
-                            key={`${project.slug?.current}-tech-${idx}`}
-                            className="text-xs px-2 py-0.5 @md/card:py-1 rounded-md bg-muted"
-                          >
-                            {techData.name}
-                          </span>
-                        ) : null;
-                      })}
-                      {project.technologies.length > 4 && (
-                        <span className="text-xs px-2 py-0.5 @md/card:py-1 rounded-md bg-muted">
-                          +{project.technologies.length - 4}
-                        </span>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Actions */}
-                  <div className="flex flex-col @xs/card:flex-row gap-2 @xs/card:gap-3 pt-2">
-                    {project.liveUrl && (
-                      <Link
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 text-center px-3 py-2 @md/card:px-4 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors text-xs @md/card:text-sm"
-                      >
-                        Live Demo
-                      </Link>
-                    )}
-                    {project.githubUrl && (
-                      <Link
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-3 py-2 @md/card:px-4 rounded-lg border hover:bg-accent transition-colors text-xs @md/card:text-sm text-center"
-                      >
-                        GitHub
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
+          <div className="grid grid-cols-1 @2xl:grid-cols-2 @5xl:grid-cols-3 gap-6">
+            {featuredProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
         </div>
+        <details className="mt-12 group/more">
+          <summary className="cursor-pointer rounded-lg border bg-card p-5 font-semibold text-lg hover:bg-accent">
+            More Projects{" "}
+            <span className="text-sm text-foreground/80 font-normal">
+              ({secondaryProjects.length})
+            </span>
+          </summary>
+          <div className="grid md:grid-cols-2 gap-6 mt-6">
+            {secondaryProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </div>
+        </details>
       </div>
     </section>
   );

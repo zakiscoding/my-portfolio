@@ -1,6 +1,5 @@
 "use client";
 
-import { useClerk, useUser } from "@clerk/nextjs";
 import { MessageCircle, X } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -19,13 +18,11 @@ export function ProfileImage({
 }: ProfileImageProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { toggleSidebar, open } = useSidebar();
-  const { isSignedIn } = useUser();
-  const { openSignIn } = useClerk();
 
   return (
     <button
       type="button"
-      onClick={() => (isSignedIn ? toggleSidebar() : openSignIn())}
+      onClick={toggleSidebar}
       className="relative aspect-square rounded-2xl overflow-hidden border-4 border-primary/20 block group cursor-pointer w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -45,7 +42,7 @@ export function ProfileImage({
           <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse" />
           <div className="absolute inset-0 w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
         </div>
-        <span className="text-xs font-medium text-white">Online</span>
+        <span className="text-xs font-medium text-white">AI Twin</span>
       </div>
 
       {/* Hover Overlay */}

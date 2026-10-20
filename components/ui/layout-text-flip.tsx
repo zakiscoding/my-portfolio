@@ -1,5 +1,5 @@
 "use client";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -15,23 +15,28 @@ export const LayoutTextFlip = ({
   className?: string;
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
+    if (reduceMotion || words.length < 2) return;
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % words.length);
     }, duration);
 
     return () => clearInterval(interval);
-  }, [duration, words.length]);
+  }, [duration, words.length, reduceMotion]);
 
   return (
     <span className={cn("inline-flex flex-wrap items-center gap-2", className)}>
-      <motion.span layoutId="subtext" className="inline-block">
+      <motion.span
+        layoutId={reduceMotion ? undefined : "subtext"}
+        className="inline-block"
+      >
         {text}
       </motion.span>
 
       <motion.span
-        layout
+        layout={!reduceMotion}
         className="relative inline-block overflow-hidden rounded-lg border border-primary/20 bg-primary/10 px-3 py-1 backdrop-blur-sm"
       >
         <AnimatePresence mode="popLayout">
@@ -48,9 +53,7 @@ export const LayoutTextFlip = ({
               duration: 0.5,
               ease: "easeInOut",
             }}
-            className={cn(
-              "inline-block whitespace-nowrap font-semibold text-primary",
-            )}
+            className={cn("inline-block font-semibold text-primary")}
           >
             {words[currentIndex]}
           </motion.span>

@@ -12,26 +12,30 @@ export function ContactForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    setStatus({ type: null, message: "" });
     startTransition(async () => {
-      const result = await submitContactForm(formData);
-
-      if (result.success) {
-        setStatus({
-          type: "success",
-          message: "Thank you! Your message has been sent successfully.",
-        });
-        // Reset the form
-        (e.target as HTMLFormElement).reset();
-        // Clear success message after 5 seconds
-        setTimeout(() => {
-          setStatus({ type: null, message: "" });
-        }, 5000);
-      } else {
+      try {
+        const result = await submitContactForm(formData);
+        if (result.success) {
+          setStatus({
+            type: "success",
+            message: "Thank you! Your message has been received.",
+          });
+          form.reset();
+        } else {
+          setStatus({
+            type: "error",
+            message:
+              result.error ||
+              "Your message could not be sent. Please try again.",
+          });
+        }
+      } catch {
         setStatus({
           type: "error",
-          message: result.error || "Something went wrong. Please try again.",
+          message: "Could not connect. Please try again or use the email link.",
         });
       }
     });
@@ -45,6 +49,7 @@ export function ContactForm() {
 
       {status.type && (
         <div
+          role={status.type === "error" ? "alert" : "status"}
           className={`mb-4 p-3 rounded-lg text-sm ${
             status.type === "success"
               ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
@@ -55,7 +60,11 @@ export function ContactForm() {
         </div>
       )}
 
-      <form className="space-y-3 @md/form:space-y-4" onSubmit={handleSubmit}>
+      <form
+        aria-busy={isPending}
+        className="space-y-3 @md/form:space-y-4"
+        onSubmit={handleSubmit}
+      >
         <div>
           <label
             htmlFor="name"
@@ -67,6 +76,8 @@ export function ContactForm() {
             type="text"
             id="name"
             name="name"
+            autoComplete="name"
+            maxLength={100}
             className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm @md/form:text-base"
             placeholder="Your name"
             required
@@ -85,6 +96,8 @@ export function ContactForm() {
             type="email"
             id="email"
             name="email"
+            autoComplete="email"
+            maxLength={254}
             className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm @md/form:text-base"
             placeholder="your.email@example.com"
             required
@@ -103,6 +116,7 @@ export function ContactForm() {
             type="text"
             id="subject"
             name="subject"
+            maxLength={200}
             className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary text-sm @md/form:text-base"
             placeholder="What's this about?"
             required
@@ -120,6 +134,7 @@ export function ContactForm() {
           <textarea
             id="message"
             name="message"
+            maxLength={5000}
             rows={5}
             className="w-full px-3 py-1.5 @md/form:px-4 @md/form:py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary resize-none text-sm @md/form:text-base"
             placeholder="Tell me about your project..."

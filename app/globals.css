@@ -149,3 +149,26 @@
 .transform-3d {
   transform-style: preserve-3d;
 }
+
+/* Preserve animation while honoring visitors' motion preferences. */
+html {
+  scroll-padding-top: 4rem;
+}
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: Override component animations for the accessibility preference. */
+    animation-duration: 0.01ms !important;
+    /* biome-ignore lint/complexity/noImportantStyles: Override component animations for the accessibility preference. */
+    animation-iteration-count: 1 !important;
+    /* biome-ignore lint/complexity/noImportantStyles: Override component transitions for the accessibility preference. */
+    transition-duration: 0.01ms !important;
+    /* biome-ignore lint/complexity/noImportantStyles: Override smooth scroll for the accessibility preference. */
+    scroll-behavior: auto !important;
+  }
+}
