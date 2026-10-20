@@ -2,6 +2,8 @@
 
 Next.js 16 portfolio with Sanity Studio, Tailwind, Motion animations, theme switching, and an optional Clerk-authenticated ChatKit AI Twin.
 
+The current interface follows the owner's cyberpunk reference: plum backgrounds, neon pink/lime panels, cyan details, angular surfaces, and monospace labels. The default theme is dark; light and system themes remain available. The new theme preference uses `portfolio-cyber-theme` in browser storage. The hero's engineering graphic is built in React/CSS and does not require image assets.
+
 ## Development
 
 Use Node.js 22.18+ or 24 and pnpm 10. On Windows, use `npx.cmd` if PowerShell restricts the script launcher.

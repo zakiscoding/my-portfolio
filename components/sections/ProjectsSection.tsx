@@ -9,7 +9,7 @@ import { SectionHeading } from "./SectionHeading";
 
 function ProjectCard({ project }: { project: Project }) {
   return (
-    <article className="group bg-card border rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col min-w-0">
+    <article className="cyber-project group bg-card border rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col min-w-0">
       {project.preview ? (
         <div className="relative aspect-video bg-muted overflow-hidden">
           <Image
@@ -23,7 +23,7 @@ function ProjectCard({ project }: { project: Project }) {
       ) : (
         <div
           aria-hidden="true"
-          className="h-20 px-6 flex items-center justify-between bg-primary/5 border-b"
+          className="project-banner h-24 px-6 flex items-center justify-between bg-primary/5 border-b"
         >
           <Code2 className="h-7 w-7 text-primary/60" />
           <span className="text-xs font-mono text-foreground/80">

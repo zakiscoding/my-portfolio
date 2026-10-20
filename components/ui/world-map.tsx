@@ -3,7 +3,6 @@
 import DottedMap from "dotted-map";
 import { motion } from "motion/react";
 import Image from "next/image";
-import { useTheme } from "next-themes";
 import { useRef } from "react";
 
 interface MapProps {
@@ -16,17 +15,14 @@ interface MapProps {
 
 export default function WorldMap({
   dots = [],
-  lineColor = "#0ea5e9",
+  lineColor = "var(--primary)",
 }: MapProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const map = new DottedMap({ height: 100, grid: "diagonal" });
 
-  const { theme, resolvedTheme } = useTheme();
-  const actualTheme = resolvedTheme ?? theme;
-
   const svgMap = map.getSVG({
     radius: 0.22,
-    color: actualTheme === "dark" ? "#FFFFFF40" : "#00000040",
+    color: "#00000040",
     shape: "circle",
     backgroundColor: "transparent",
   });
@@ -56,7 +52,7 @@ export default function WorldMap({
     <div className="w-full aspect-[2/1] rounded-lg relative font-sans">
       <Image
         src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
-        className="h-full w-full [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)] pointer-events-none select-none"
+        className="h-full w-full dark:invert [mask-image:linear-gradient(to_bottom,transparent,white_10%,white_90%,transparent)] pointer-events-none select-none"
         alt="world map showing global connectivity"
         height={495}
         width={1056}

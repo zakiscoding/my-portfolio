@@ -5,7 +5,7 @@ Verified on Windows with Node.js 24.19.0, pnpm 10, the frozen dependency lockfil
 | Check | Result |
 | --- | --- |
 | `pnpm typecheck` | Passed |
-| `pnpm lint` | Passed, Biome checked 96 files |
+| `pnpm lint` | Passed, Biome checked 97 files |
 | `pnpm test` | Passed, 5 contact-validation tests |
 | `pnpm build` | Passed, production routes generated including `/studio` |
 | `git diff --check` | Passed |
@@ -44,3 +44,9 @@ Reduced-motion text is visible on the first render, Comet tilt respects reduced 
 More Projects now shows QuickBite, Redis Clone, Amazon Prime CI/CD, and Abyss. Redis Clone and Abyss reuse the same reviewed definitions as their featured cards. Removed Repo Intel contribution entries and individual PR links/counts/status badges from public content. Abyss links to the owner-provided `https://github.com/zakiscoding/abysss` repository (verified to be a fork of the collaborative upstream project).
 
 Verified `https://mycredentials.ecornell.cornell.edu/credential/OEbTFqATTf` in the browser: HTTP 200, title "Machine Learning Foundations". Added a supplemental eCornell/Cornell University credential with that direct verification link, avoiding the LinkedIn redirect. No issue or expiration date was supplied or asserted. Existing Sanity records are unchanged.
+
+## Cyberpunk interface
+
+Applied the owner's supplied visual reference through plum backgrounds, neon pink/lime/cyan accents, outlined display typography, cut-corner engineering panels, striped project banners, angular cards, and a matching navigation dock. The layered hero graphic is code-native and decorative, with no fabricated screenshots or runtime metrics. Default theme is dark, with working light/system alternatives and an independent `portfolio-cyber-theme` storage preference. All portfolio content and existing interactions remain available.
+
+Verified responsive widths from 320px through 1440px, theme switching, mobile navigation, mobile form text sizes, reduced-motion headline visibility, and zero axe violations in tested light/dark/mobile views. The map now uses a stable SVG and CSS inversion so changing the default theme does not cause a hydration mismatch. TypeScript, Biome, and the production build were checked for this visual update.

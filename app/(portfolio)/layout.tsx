@@ -24,7 +24,8 @@ export default async function RootLayout({
   return (
     <ThemeProvider
       attribute="class"
-      defaultTheme="system"
+      defaultTheme="dark"
+      storageKey="portfolio-cyber-theme"
       enableSystem
       disableTransitionOnChange
     >
@@ -36,7 +37,7 @@ export default async function RootLayout({
           />
         )}
 
-      <SidebarProvider defaultOpen={false}>
+      <SidebarProvider defaultOpen={false} className="cyber-portfolio">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-background focus:p-3"

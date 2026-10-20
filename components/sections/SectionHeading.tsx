@@ -6,7 +6,7 @@ export function SectionHeading({
   description?: string;
 }) {
   return (
-    <div className="text-center mb-12">
+    <div className="section-heading text-center mb-12">
       <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
         {title}
       </h2>

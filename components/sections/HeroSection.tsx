@@ -6,6 +6,7 @@ import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { branding } from "@/lib/portfolio";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
+import { EngineeringGraphic } from "./EngineeringGraphic";
 import { ProfileImage } from "./ProfileImage";
 
 const HERO_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
@@ -41,17 +42,24 @@ export async function HeroSection() {
       <BackgroundRippleEffect rows={8} cols={27} cellSize={56} />
 
       <div className="relative z-10 container mx-auto max-w-6xl">
+        <div className="hero-masthead">
+          <a href="#home" aria-label="Home">
+            ZM<span className="hero-brand-accent">_</span>
+          </a>
+          <span>BACKEND / INFRASTRUCTURE / AI</span>
+        </div>
         <div className="@container">
-          <div
-            className={`grid grid-cols-1 gap-8 @lg:gap-12 items-center ${profile.profileImage ? "@3xl:grid-cols-2" : "max-w-4xl"}`}
-          >
+          <div className="hero-grid grid grid-cols-1 @3xl:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
             <div className="@container/hero space-y-4 @md/hero:space-y-6">
+              <p className="hero-eyebrow">
+                <span /> SOFTWARE ENGINEERING
+              </p>
               <h1 className="text-4xl @md/hero:text-5xl @lg/hero:text-7xl font-bold tracking-tight">
                 {profile.firstName}{" "}
                 <span className="text-primary">{profile.lastName}</span>
               </h1>
-              <p className="text-xl @md/hero:text-2xl @lg/hero:text-3xl text-muted-foreground font-medium">
+              <p className="hero-role text-xl @md/hero:text-2xl text-muted-foreground font-medium">
                 {branding.headline}
               </p>
               <LayoutTextFlip
@@ -63,7 +71,7 @@ export async function HeroSection() {
                 ]}
                 className="text-base @md/hero:text-lg text-muted-foreground"
               />
-              <p className="text-base @md/hero:text-lg text-muted-foreground leading-relaxed">
+              <p className="hero-introduction text-base text-muted-foreground leading-relaxed">
                 {branding.introduction}
               </p>
 
@@ -147,7 +155,7 @@ export async function HeroSection() {
             </div>
 
             {/* Profile Image */}
-            {profile.profileImage && (
+            {profile.profileImage ? (
               <ProfileImage
                 imageUrl={urlFor(profile.profileImage)
                   .width(600)
@@ -156,6 +164,8 @@ export async function HeroSection() {
                 firstName={profile.firstName || ""}
                 lastName={profile.lastName || ""}
               />
+            ) : (
+              <EngineeringGraphic />
             )}
           </div>
         </div>
