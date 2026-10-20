@@ -17,16 +17,29 @@ type HeaderProps = {
   authEnabled?: boolean;
   chatEnabled?: boolean;
   isSignedIn?: boolean;
+  analyticsOwnerEmail?: string;
+  canViewAnalytics?: boolean;
   onSignOut?: () => void;
 };
 
 function AuthenticatedHeader(props: HeaderProps) {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
+  const canViewAnalytics = Boolean(
+    isSignedIn &&
+      props.analyticsOwnerEmail &&
+      user?.emailAddresses.some(
+        (email) =>
+          email.emailAddress.toLowerCase() ===
+            props.analyticsOwnerEmail?.trim().toLowerCase() &&
+          email.verification?.status === "verified",
+      ),
+  );
   const { signOut } = useClerk();
   return (
     <Header
       {...props}
       isSignedIn={isSignedIn}
+      canViewAnalytics={canViewAnalytics}
       onSignOut={() => {
         void signOut();
       }}
@@ -47,6 +60,7 @@ function Header({
   chatEnabled = false,
   isSignedIn = false,
   onSignOut,
+  canViewAnalytics = false,
 }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuButton = useRef<HTMLButtonElement>(null);
@@ -66,31 +80,40 @@ function Header({
   return (
     <header className="site-header">
       <div className="site-header-inner">
-        <Link
+        {/* biome-ignore lint/a11y/useValidAnchor: Native fragment navigation to the real home section preserves smooth scrolling. */}
+        <a
           href="#home"
           aria-label="Home"
           className="site-brand"
           onClick={() => setMenuOpen(false)}
         >
           ZM<span>_</span>
-        </Link>
+        </a>
         <nav
           id="portfolio-navigation"
           aria-label="Main navigation"
           className="site-navigation"
           data-open={menuOpen}
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href || "#home"}
-              target={item.isExternal ? "_blank" : undefined}
-              rel={item.isExternal ? "noopener noreferrer" : undefined}
-              onClick={() => setMenuOpen(false)}
-            >
-              {item.title}
-            </Link>
-          ))}
+          {[
+            ...navItems,
+            ...(canViewAnalytics
+              ? [{ title: "Analytics", href: "/analytics" }]
+              : []),
+          ].map((item) => {
+            const NavLink = item.href?.startsWith("#") ? "a" : Link;
+            return (
+              <NavLink
+                key={item.href}
+                href={item.href || "#home"}
+                target={item.isExternal ? "_blank" : undefined}
+                rel={item.isExternal ? "noopener noreferrer" : undefined}
+                onClick={() => setMenuOpen(false)}
+              >
+                {item.title}
+              </NavLink>
+            );
+          })}
         </nav>
         <div className="site-header-actions">
           {chatEnabled && (

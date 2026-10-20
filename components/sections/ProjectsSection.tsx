@@ -47,6 +47,12 @@ function ProjectCard({ project }: { project: Project }) {
             ),
           )}
         </ul>
+        {project.outcome && (
+          <div className="border-l-2 border-primary pl-3 text-sm leading-relaxed">
+            <p className="text-xs text-primary mb-1">Implemented outcome</p>
+            <p>{project.outcome}</p>
+          </div>
+        )}
         <details className="project-details">
           <summary>
             Engineering details

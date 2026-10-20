@@ -109,6 +109,7 @@ export type Project = {
   technologies: string[];
   accomplishments: string[];
   highlights?: string[];
+  outcome?: string;
   diagram?: { steps: string[]; caption: string };
   links: { label: string; href: string }[];
   preview?: { src: string; alt: string; caption: string };
@@ -117,6 +118,8 @@ export type Project = {
 
 const abyssProject: Project = {
   id: "abyss",
+  outcome:
+    "Selective retries retain completed task output; configurable spending limits put bounds on agent jobs.",
   name: "Abyss",
   category: "AI Agent Orchestration · Team project",
   description:
@@ -149,6 +152,8 @@ const abyssProject: Project = {
 
 const redisProject: Project = {
   id: "redis-clone",
+  outcome:
+    "TCP clients can execute string, counter, and list commands with conditional writes and expiring keys.",
   name: "Redis Clone",
   category: "Systems Programming",
   description:
@@ -177,6 +182,8 @@ export const featuredProjects: Project[] = [
   redisProject,
   {
     id: "homelab",
+    outcome:
+      "One job control plane connects queued backend work, document retrieval, local inference, and GPU training.",
     name: "Homelab Infrastructure",
     category: "Infrastructure & GPU workloads",
     description:
@@ -222,6 +229,8 @@ export const featuredProjects: Project[] = [
   },
   {
     id: "housing-mlops",
+    outcome:
+      "Tracked training artifacts feed a FastAPI prediction service with a configured ECR/ECS delivery pipeline.",
     name: "Housing Price MLOps",
     category: "Backend & ML delivery",
     description:
@@ -257,6 +266,8 @@ export const featuredProjects: Project[] = [
   },
   {
     id: "kash",
+    outcome:
+      "Receipt extraction, recurring entries, and scheduled budget checks support an end-to-end expense workflow.",
     name: "Kash",
     category: "Full-Stack Fintech",
     description:
@@ -287,6 +298,8 @@ export const featuredProjects: Project[] = [
   },
   {
     id: "emotion",
+    outcome:
+      "A single fused model produces seven emotion classes and three sentiment classes, with held-out evaluation code.",
     name: "EMOTION",
     category: "Multimodal AI",
     description:
@@ -322,6 +335,31 @@ export const featuredProjects: Project[] = [
 ];
 
 export const secondaryProjects: Project[] = [
+  {
+    id: "audio-cnn",
+    name: "Audio CNN Visualizer",
+    category: "Audio ML & model visualization",
+    description:
+      "An environmental-sound classifier with an interactive interface for inspecting predictions, audio waveforms, spectrograms, and CNN feature maps.",
+    technologies: ["Python", "PyTorch", "Torchaudio", "Modal", "Next.js"],
+    highlights: [
+      "Residual CNN trained on the 50-class ESC-50 dataset.",
+      "Top-three predictions with per-layer feature visualizations.",
+    ],
+    diagram: {
+      steps: ["WAV audio", "Mel / CNN", "Predictions + maps"],
+      caption: "Source-based flow / audio to model insights",
+    },
+    accomplishments: [
+      "Implemented a residual convolutional model with optional intermediate feature-map outputs.",
+      "Built a Modal inference endpoint that resamples audio, computes mel-spectrograms, and returns top-three class probabilities, waveforms, and layer visualizations.",
+      "Added a Next.js upload interface; training code includes MixUp, TensorBoard logging, and saved model checkpoints.",
+    ],
+    links: [
+      { label: "GitHub", href: "https://github.com/zakiscoding/Audio_CNN" },
+      { label: "Live demo", href: "https://audio-cnn-saas.vercel.app" },
+    ],
+  },
   {
     id: "quickbite",
     name: "QuickBite",

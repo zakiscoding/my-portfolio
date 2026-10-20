@@ -13,6 +13,7 @@ export function ExperienceSection() {
           {experiences.map((experience) => (
             <article
               key={experience.company}
+              id={`experience-${experience.company.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
               className="relative pl-6 md:pl-8 pb-8 border-l-2 border-muted last:border-l-0"
             >
               <div className="absolute -left-2.25 top-0 w-4 h-4 rounded-full bg-primary border-4 border-background" />
