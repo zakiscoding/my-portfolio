@@ -1,43 +1,46 @@
 "use server";
 
 import { auth } from "@clerk/nextjs/server";
-import { WORKFLOW_ID } from "@/lib/config";
 
 export async function createSession() {
-  const { userId } = await auth();
-
-  if (!userId) {
-    throw new Error("Unauthorized - Please sign in");
+  try {
+    const { userId } = await auth();
+    if (!userId)
+      return { error: "Please sign in to chat.", clientSecret: null };
+    const apiKey = process.env.OPENAI_API_KEY;
+    const workflowId = process.env.NEXT_PUBLIC_CHATKIT_WORKFLOW_ID?.trim();
+    if (!apiKey || !workflowId)
+      return {
+        error: "The AI Twin is temporarily unavailable.",
+        clientSecret: null,
+      };
+    const response = await fetch("https://api.openai.com/v1/chatkit/sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+        "OpenAI-Beta": "chatkit_beta=v1",
+      },
+      body: JSON.stringify({ workflow: { id: workflowId }, user: userId }),
+      signal: AbortSignal.timeout(15000),
+      cache: "no-store",
+    });
+    if (!response.ok)
+      return {
+        error: "The AI Twin could not connect. Please try again later.",
+        clientSecret: null,
+      };
+    const data = await response.json();
+    if (typeof data.client_secret !== "string")
+      return {
+        error: "The AI Twin could not start a session.",
+        clientSecret: null,
+      };
+    return { clientSecret: data.client_secret, error: null };
+  } catch {
+    return {
+      error: "The AI Twin could not connect. Please try again later.",
+      clientSecret: null,
+    };
   }
-
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    throw new Error("OPENAI_API_KEY not configured");
-  }
-
-  if (!WORKFLOW_ID) {
-    throw new Error("WORKFLOW_ID not configured");
-  }
-
-  // Create ChatKit session with Clerk user ID
-  const response = await fetch("https://api.openai.com/v1/chatkit/sessions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-      "OpenAI-Beta": "chatkit_beta=v1",
-    },
-    body: JSON.stringify({
-      workflow: { id: WORKFLOW_ID },
-      user: userId,
-    }),
-  });
-
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`Failed to create session: ${error}`);
-  }
-
-  const data = await response.json();
-  return data.client_secret as string;
 }

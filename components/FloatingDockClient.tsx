@@ -16,6 +16,9 @@ interface NavItem {
 
 interface FloatingDockClientProps {
   navItems: NavItem[];
+  authEnabled?: boolean;
+  isSignedIn?: boolean;
+  onSignOut?: () => void;
 }
 
 interface DockLink {
@@ -38,9 +41,33 @@ const getVisibleLinks = (links: DockLink[], maxItems: number) => {
   };
 };
 
-export function FloatingDockClient({ navItems }: FloatingDockClientProps) {
+function AuthenticatedDock(props: FloatingDockClientProps) {
   const { isSignedIn } = useUser();
   const { signOut } = useClerk();
+  return (
+    <Dock
+      {...props}
+      isSignedIn={isSignedIn}
+      onSignOut={() => {
+        void signOut();
+      }}
+    />
+  );
+}
+
+export function FloatingDockClient(props: FloatingDockClientProps) {
+  return props.authEnabled ? (
+    <AuthenticatedDock {...props} />
+  ) : (
+    <Dock {...props} />
+  );
+}
+
+function Dock({
+  navItems,
+  isSignedIn = false,
+  onSignOut,
+}: FloatingDockClientProps) {
   const { open, isMobile, openMobile } = useSidebar();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [desktopMoreMenuOpen, setDesktopMoreMenuOpen] = useState(false);
@@ -60,7 +87,7 @@ export function FloatingDockClient({ navItems }: FloatingDockClientProps) {
           {
             title: "Sign Out",
             icon: <IconLogout className="h-full w-full" />,
-            onClick: () => signOut(),
+            onClick: onSignOut,
           },
         ]
       : []),
@@ -94,6 +121,8 @@ export function FloatingDockClient({ navItems }: FloatingDockClientProps) {
               <button
                 type="button"
                 onClick={() => setDesktopMoreMenuOpen(!desktopMoreMenuOpen)}
+                aria-label="More navigation links"
+                aria-expanded={desktopMoreMenuOpen}
                 className="group relative flex items-center justify-center w-12 h-12 md:w-12 md:h-12"
               >
                 <div className="relative flex items-center justify-center w-full h-full rounded-full bg-white/10 dark:bg-white/5 group-hover/dock:bg-white/40 dark:group-hover/dock:bg-white/20 backdrop-blur-md border border-white/20 dark:border-white/10 group-hover/dock:border-white/50 dark:group-hover/dock:border-white/30 transition-all duration-500 ease-out hover:scale-125 hover:-translate-y-2 md:hover:-translate-y-3 hover:!bg-white/50 dark:hover:!bg-white/30 hover:!border-white/70 dark:hover:!border-white/40 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.3)]">
@@ -135,6 +164,8 @@ export function FloatingDockClient({ navItems }: FloatingDockClientProps) {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle navigation"
+          aria-expanded={mobileMenuOpen}
           className="w-12 h-12 rounded-full bg-white/20 dark:bg-black/30 hover:bg-white/30 dark:hover:bg-black/40 backdrop-blur-xl border border-white/30 dark:border-white/20 hover:border-white/40 dark:hover:border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.15)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex items-center justify-center text-neutral-500 dark:text-neutral-300 hover:text-neutral-600 dark:hover:text-neutral-200 transition-all duration-300"
         >
           {mobileMenuOpen ? (
@@ -162,6 +193,8 @@ export function FloatingDockClient({ navItems }: FloatingDockClientProps) {
                 <button
                   type="button"
                   onClick={() => setMobileMoreMenuOpen(!mobileMoreMenuOpen)}
+                  aria-label="More navigation links"
+                  aria-expanded={mobileMoreMenuOpen}
                   className="group relative flex items-center justify-center w-12 h-12"
                 >
                   <div className="relative flex items-center justify-center w-full h-full rounded-full bg-white/25 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/20 transition-all duration-300 hover:scale-110 hover:bg-gray-500/10 dark:hover:bg-white/20 hover:border-white/60 dark:hover:border-white/30">
@@ -270,11 +303,17 @@ function DockIcon({
     "group relative flex items-center justify-center w-12 h-12 md:w-12 md:h-12";
 
   return item.onClick ? (
-    <button type="button" onClick={handleClick} className={wrapperClasses}>
+    <button
+      type="button"
+      onClick={handleClick}
+      className={wrapperClasses}
+      aria-label={item.title}
+    >
       {content}
     </button>
   ) : (
     <Link
+      aria-label={item.title}
       href={item.href || "#"}
       target={item.isExternal ? "_blank" : undefined}
       rel={item.isExternal ? "noopener noreferrer" : undefined}

@@ -1,6 +1,10 @@
 import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+const authentication = clerkMiddleware();
+export default process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
+process.env.CLERK_SECRET_KEY
+  ? authentication
+  : function proxy() {};
 
 export const config = {
   matcher: [
