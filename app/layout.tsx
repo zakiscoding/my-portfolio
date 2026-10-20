@@ -29,10 +29,10 @@ export const metadata: Metadata = {
       "Explore my backend, cloud infrastructure, and AI projects—and meet my AI Twin.",
     images: [
       {
-        url: "/portfolio-preview.png",
-        width: 1200,
-        height: 630,
-        alt: "Zakariye Mohamed — backend, cloud, and applied AI portfolio with his waving pixel avatar",
+        url: "/portfolio-preview-minimal.png",
+        width: 1733,
+        height: 907,
+        alt: "Zakariye Mohamed — Backend / Cloud / AI, in neon lime and white on a deep plum background",
       },
     ],
   },
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Zakariye Mohamed | Software Engineering Portfolio",
     description: "Backend systems, cloud infrastructure, and applied AI.",
-    images: ["/portfolio-preview.png"],
+    images: ["/portfolio-preview-minimal.png"],
   },
 };
 
