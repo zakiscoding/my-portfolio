@@ -5,10 +5,7 @@ export function ContributionsSection() {
   return (
     <section id="contributions" className="py-20 px-6">
       <div className="container mx-auto max-w-6xl">
-        <SectionHeading
-          title="Open Source & Collaboration"
-          description="Selected engineering contributions to Abyss, a collaborative AI agent orchestration platform."
-        />
+        <SectionHeading title="Open Source & Collaboration" />
         <ul className="grid md:grid-cols-2 gap-6">
           {contributions.map((contribution) => (
             <li
