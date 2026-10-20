@@ -36,22 +36,31 @@ function Runner() {
   });
   const [savingScore, setSavingScore] = useState(false);
   const [scoreError, setScoreError] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const requestVersion = useRef(0);
+  const appliedVersion = useRef(0);
+  const pendingSaves = useRef(0);
+  const mounted = useRef(false);
   useEffect(() => {
     let active = true;
+    mounted.current = true;
     const load = async () => {
+      const version = ++requestVersion.current;
       try {
         const response = await fetch("/api/runner", { cache: "no-store" });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error);
         if (!active) return;
+        if (version < appliedVersion.current) return;
+        appliedVersion.current = version;
         player.current = data.player;
         setPlayerName(data.player.name);
-        setBest(data.best);
+        setBest((previous) => Math.max(previous, data.best));
         setLeaderboard(data.leaderboard);
-        setScoreError(null);
+        setLoadError(null);
       } catch {
-        if (active)
-          setScoreError("High scores could not load. You can still play.");
+        if (active && version >= appliedVersion.current)
+          setLoadError("High scores could not load. You can still play.");
       }
     };
     void load();
@@ -60,10 +69,13 @@ function Runner() {
     }, 30000);
     return () => {
       active = false;
+      mounted.current = false;
       window.clearInterval(refresh);
     };
   }, []);
   saveScore.current = async (value: number) => {
+    const version = ++requestVersion.current;
+    pendingSaves.current += 1;
     setSavingScore(true);
     setBest((previous) => Math.max(previous, value));
     try {
@@ -74,17 +86,23 @@ function Runner() {
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      setLeaderboard(data.leaderboard);
-      setBest(data.best);
-      setPlayerName(data.player.name);
-      player.current = data.player;
+      if (!mounted.current) return;
+      if (version >= appliedVersion.current) {
+        appliedVersion.current = version;
+        setLeaderboard(data.leaderboard);
+        setPlayerName(data.player.name);
+        player.current = data.player;
+      }
+      setBest((previous) => Math.max(previous, data.best));
       setScoreError(null);
     } catch {
-      setScoreError(
-        "Score could not be saved. Please finish another run to retry.",
-      );
+      if (mounted.current)
+        setScoreError(
+          "Score could not be saved. Your best here may not be on the leaderboard.",
+        );
     } finally {
-      setSavingScore(false);
+      pendingSaves.current -= 1;
+      if (mounted.current) setSavingScore(pendingSaves.current > 0);
     }
   };
   const jump = useRef(() => {});
@@ -192,6 +210,7 @@ function Runner() {
             setStatus("over");
             setScore(game.score);
             saveScore.current(game.score);
+            break;
           }
         }
         if (now - lastScore > 100) {
@@ -338,9 +357,9 @@ function Runner() {
       {savingScore && (
         <output className="runner-player">Saving high score...</output>
       )}
-      {scoreError && (
+      {(scoreError || loadError) && (
         <p className="runner-score-error" role="alert">
-          {scoreError}
+          {scoreError || loadError}
         </p>
       )}
       <div className="runner-leaderboard">
