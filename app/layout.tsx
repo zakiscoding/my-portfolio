@@ -16,9 +16,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://zakariye-mohamed.vercel.app"),
   title: "Zakariye Mohamed | Backend & Infrastructure Software Engineer",
   description:
     "Backend systems, cloud infrastructure, and applied AI. Explore Zakariye Mohamed's projects, engineering experience, and open-source contributions.",
+  openGraph: {
+    type: "website",
+    url: "https://zakariye-mohamed.vercel.app/",
+    siteName: "Zakariye Mohamed's Portfolio",
+    title: "Zakariye Mohamed | Software Engineering Portfolio",
+    description:
+      "Explore my backend, cloud infrastructure, and AI projects—and meet my AI Twin.",
+    images: [
+      {
+        url: "/portfolio-preview.png",
+        width: 1200,
+        height: 630,
+        alt: "Zakariye Mohamed — backend, cloud, and applied AI portfolio with his waving pixel avatar",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zakariye Mohamed | Software Engineering Portfolio",
+    description: "Backend systems, cloud infrastructure, and applied AI.",
+    images: ["/portfolio-preview.png"],
+  },
 };
 
 export default function RootLayout({
