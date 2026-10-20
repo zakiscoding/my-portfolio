@@ -18,11 +18,11 @@ Open http://localhost:3000. Studio remains at `/studio`. The example uses verifi
 
 See [the audit](docs/portfolio-audit.md) and [project evidence](docs/project-evidence.md).
 
-- `lib/portfolio.ts` owns reviewed branding, about text, skills, experience, education, projects, and contribution status. `components/FloatingDock.tsx` owns navigation anchors. These local editorial choices override older CMS content without changing documents.
-- Sanity supplies profile name, contact details, profile image, certifications, achievements, services, and blog content. Live content and draft previews remain enabled for these sections.
+- `lib/portfolio.ts` owns reviewed branding, about text, skills, experience, education, projects, supplemental credentials, and contribution descriptions. `components/FloatingDock.tsx` owns navigation anchors. These local editorial choices override older CMS content without changing documents.
+- Sanity supplies profile name, contact details, profile image, existing certifications, achievements, services, and blog content. The owner-provided eCornell credential is a local supplement. Live content and draft previews remain enabled for these sections.
 - Revise curated sections through a reviewed PR. Editing corresponding older Studio records will not update those sections until an explicit CMS migration is implemented.
 - TaskMesh was excluded at the owner's request; Housing Price MLOps fills its featured slot. Redis Clone is described from the latest verified C implementation, including TCP, RESP, key expiration, and string/list operations.
-- PR status is a verified snapshot dated October 19, 2026. Recheck linked upstream PRs before updating status.
+- Contributions are plain engineering summaries without individual PR links or status badges. More Projects includes Redis Clone and Abyss in place of MyCalibrator RE and Repo Intel, as requested by the owner. Abyss links to the owner-provided `zakiscoding/abysss` fork and retains team attribution.
 - QuickBite's preview is an authentic screenshot of its deployed sign-in page. Other cards use decorative code headers. Kash returned HTTP 403, so its demo link is omitted.
 
 ## Configuration

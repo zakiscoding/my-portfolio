@@ -113,50 +113,49 @@ export type Project = {
   note?: string;
 };
 
+const abyssProject: Project = {
+  id: "abyss",
+  name: "Abyss",
+  category: "AI Agent Orchestration · Team project",
+  description:
+    "Collaborative hackathon platform where AI agents bid on tasks. My work spans backend execution, tool access, and a resilient real-time interface.",
+  technologies: [
+    "Python",
+    "FastAPI",
+    "TypeScript",
+    "React",
+    "WebSockets",
+    "MCP",
+  ],
+  accomplishments: [
+    "Contributed MCP integrations, per-session tools, session templates, and file attachments.",
+    "Added job queues, cancellation, selective task retries, and daily, weekly, and monthly spending limits.",
+    "Improved reconnect event handling, responsive layouts, keyboard access, and result previews.",
+  ],
+  note: "Collaborative team project; this repository is my fork of jtdao24/abyss.",
+  links: [{ label: "GitHub", href: "https://github.com/zakiscoding/abysss" }],
+};
+
+const redisProject: Project = {
+  id: "redis-clone",
+  name: "Redis Clone",
+  category: "Systems Programming",
+  description:
+    "A Redis-like in-memory server written in C, with TCP sockets, RESP command parsing, string and list storage, and key expiration.",
+  technologies: ["C", "TCP sockets", "RESP", "CMake"],
+  accomplishments: [
+    "Implemented a select-based loop to accept and handle multiple TCP client connections.",
+    "Added RESP command parsing and in-memory string, counter, and list operations.",
+    "Implemented EX/PX expiration, TTL/PTTL queries, conditional SET, and key deletion.",
+  ],
+  links: [
+    { label: "GitHub", href: "https://github.com/zakiscoding/redis-clone" },
+  ],
+};
+
 export const featuredProjects: Project[] = [
-  {
-    id: "abyss",
-    name: "Abyss",
-    category: "AI Agent Orchestration · Team project",
-    description:
-      "Collaborative hackathon platform where AI agents bid on tasks. My work spans backend execution, tool access, and a resilient real-time interface.",
-    technologies: [
-      "Python",
-      "FastAPI",
-      "TypeScript",
-      "React",
-      "WebSockets",
-      "MCP",
-    ],
-    accomplishments: [
-      "Contributed 11 merged PRs covering MCP integrations, per-session tools, templates, and attachments.",
-      "Added job queues, cancellation, selective task retries, and daily, weekly, and monthly spending limits.",
-      "Improved reconnect event handling, responsive layouts, keyboard access, and result previews.",
-    ],
-    links: [
-      { label: "GitHub", href: "https://github.com/jtdao24/abyss" },
-      {
-        label: "My contributions",
-        href: "https://github.com/jtdao24/abyss/pulls?q=is%3Apr+author%3Azakiscoding",
-      },
-    ],
-  },
-  {
-    id: "redis-clone",
-    name: "Redis Clone",
-    category: "Systems Programming",
-    description:
-      "A Redis-like in-memory server written in C, with TCP sockets, RESP command parsing, string and list storage, and key expiration.",
-    technologies: ["C", "TCP sockets", "RESP", "CMake"],
-    accomplishments: [
-      "Implemented a select-based loop to accept and handle multiple TCP client connections.",
-      "Added RESP command parsing and in-memory string, counter, and list operations.",
-      "Implemented EX/PX expiration, TTL/PTTL queries, conditional SET, and key deletion.",
-    ],
-    links: [
-      { label: "GitHub", href: "https://github.com/zakiscoding/redis-clone" },
-    ],
-  },
+  abyssProject,
+  redisProject,
   {
     id: "homelab",
     name: "Homelab Infrastructure",
@@ -299,24 +298,7 @@ export const secondaryProjects: Project[] = [
       },
     ],
   },
-  {
-    id: "mycalibrator",
-    name: "MyCalibrator RE",
-    category: "Reverse engineering & interoperability",
-    description:
-      "Analysis of a Delphi desktop tuner companion, with recovered forms, handler mappings, and serial protocol documentation.",
-    technologies: ["Python", "Ghidra", "Delphi", "Serial protocols"],
-    accomplishments: [
-      "Mapped event handlers and reconstructed form layouts from the executable.",
-      "Documented serial read commands against captured traffic; reconstruction remains in progress.",
-    ],
-    links: [
-      {
-        label: "GitHub",
-        href: "https://github.com/zakiscoding/mycalibrator-re",
-      },
-    ],
-  },
+  redisProject,
   {
     id: "amazon-prime",
     name: "Amazon Prime CI/CD",
@@ -339,112 +321,45 @@ export const secondaryProjects: Project[] = [
       { label: "GitHub", href: "https://github.com/zakiscoding/amazon-prime" },
     ],
   },
-  {
-    id: "repo-intel",
-    name: "Repo Intel",
-    category: "Open-source contributions",
-    description:
-      "Proposed extensions to a GitHub Action that analyzes repository activity and generates reports.",
-    technologies: ["TypeScript", "GitHub Actions", "GitHub API"],
-    accomplishments: [
-      "PR #5 adds requirements.txt and pyproject.toml dependency parsing and snapshot differences.",
-      "PR #6 adds Slack Block Kit digest output with non-fatal delivery errors.",
-    ],
-    note: "Fork of oxnr/repo-intel. Both contributions are open PRs, not merged features.",
-    links: [
-      {
-        label: "GitHub fork",
-        href: "https://github.com/zakiscoding/repo-intel",
-      },
-      {
-        label: "Dependency PR",
-        href: "https://github.com/oxnr/repo-intel/pull/5",
-      },
-      { label: "Slack PR", href: "https://github.com/oxnr/repo-intel/pull/6" },
-    ],
-  },
+  abyssProject,
 ];
 
 export const contributions = [
   {
-    repository: "jtdao24/abyss",
-    number: 1,
+    title: "MCP tools & session workflows",
     summary:
-      "File attachments, session templates, vendor history, and a hard budget cap",
-    status: "Merged",
+      "Integrated an MCP tool catalog with configurable per-session tool access, reusable templates, and file attachments.",
   },
   {
-    repository: "jtdao24/abyss",
-    number: 3,
-    summary: "MCP tool catalog, configurable session tools, and activity feed",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 4,
-    summary: "Daily, weekly, and monthly spending limits",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 5,
-    summary: "Job cancellation, queueing, reruns, and CI",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 6,
-    summary: "Synthesized sound effects and persistent audio controls",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 7,
-    summary: "Responsive header and layout improvements",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 8,
-    summary: "Accurate stopped-job states and a finished-file view",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 9,
-    summary: "Selective retries that retain completed task output",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 10,
+    title: "Backend job execution",
     summary:
-      "WebSocket event deduplication, reconnect reliability, and keyboard access",
-    status: "Merged",
+      "Added job queues, cancellation, reruns, and selective retries that retain completed task output.",
   },
   {
-    repository: "jtdao24/abyss",
-    number: 11,
-    summary: "Fixed shared texture teardown during development remounts",
-    status: "Merged",
-  },
-  {
-    repository: "jtdao24/abyss",
-    number: 12,
-    summary: "Clock-based day/night scenes with reduced-motion support",
-    status: "Merged",
-  },
-  {
-    repository: "oxnr/repo-intel",
-    number: 5,
+    title: "AI spending controls",
     summary:
-      "Python dependency tracking for requirements.txt and pyproject.toml",
-    status: "Open",
+      "Implemented per-job budgets and daily, weekly, and monthly spending limits.",
   },
   {
-    repository: "oxnr/repo-intel",
-    number: 6,
-    summary: "Slack webhook output with Block Kit formatting",
-    status: "Open",
+    title: "Real-time reliability",
+    summary:
+      "Improved WebSocket reconnect handling, event deduplication, stopped-job states, and result previews.",
   },
-] as const;
+  {
+    title: "Responsive & accessible interfaces",
+    summary:
+      "Refined responsive layouts, keyboard access, scene lifecycle handling, and reduced-motion support.",
+  },
+];
+
+export const supplementalCertifications = [
+  {
+    name: "Machine Learning Foundations",
+    issuer: "eCornell, Cornell University",
+    credentialUrl:
+      "https://mycredentials.ecornell.cornell.edu/credential/OEbTFqATTf",
+    credentialId: null,
+    issueDate: null,
+    logo: null,
+  },
+];

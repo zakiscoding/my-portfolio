@@ -2,6 +2,7 @@ import { ArrowUpRight, Award } from "lucide-react";
 import Image from "next/image";
 import { defineQuery } from "next-sanity";
 import { CometCard } from "@/components/ui/comet-card";
+import { supplementalCertifications } from "@/lib/portfolio";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
 import { SectionHeading } from "./SectionHeading";
@@ -24,17 +25,27 @@ export async function CertificationsSection() {
   const { data: certifications } = await sanityFetch({
     query: CERTIFICATIONS_QUERY,
   });
-  if (!certifications?.length) return null;
+  const credentials = [
+    ...supplementalCertifications,
+    ...(certifications ?? []).filter(
+      (cert) =>
+        !supplementalCertifications.some(
+          (local) =>
+            local.credentialUrl === cert.credentialUrl ||
+            local.name === cert.name,
+        ),
+    ),
+  ];
 
   return (
     <section id="certifications" className="py-20 px-6 bg-muted/30">
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
           title="Certifications"
-          description="Professional credentials in cloud engineering"
+          description="Professional credentials in cloud engineering and machine learning"
         />
-        <div className="grid md:grid-cols-2 gap-6">
-          {certifications.map((cert) => (
+        <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {credentials.map((cert) => (
             <CometCard
               key={`${cert.issuer}-${cert.name}`}
               rotateDepth={4}
