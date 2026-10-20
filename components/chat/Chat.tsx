@@ -1,15 +1,16 @@
 "use client";
 
 import { ChatKit, useChatKit } from "@openai/chatkit-react";
+import { useState } from "react";
 import { createSession } from "@/app/actions/create-session";
-import type { CHAT_PROFILE_QUERYResult } from "@/sanity.types";
 import { useSidebar } from "../ui/sidebar";
 
 export function Chat({
   profile,
 }: {
-  profile: CHAT_PROFILE_QUERYResult | null;
+  profile: { firstName: string; lastName: string } | null;
 }) {
+  const [error, setError] = useState<string | null>(null);
   const { toggleSidebar } = useSidebar();
   // Generate greeting based on available profile data
   const getGreeting = () => {
@@ -29,11 +30,21 @@ export function Chat({
     api: {
       getClientSecret: async (_existingSecret) => {
         // Called on initial load and when session needs refresh, we dont actuall use the existing secret as userId is managed by Clerk
-        return createSession();
+        const result = await createSession();
+        if (!result.clientSecret) {
+          setError(result.error || "The AI Twin could not connect.");
+          throw new Error(result.error || "The AI Twin could not connect.");
+        }
+        setError(null);
+        return result.clientSecret;
       },
     },
     // https://chatkit.studio/playground
     theme: {},
+    onError: () =>
+      setError(
+        "The AI Twin could not connect. Please try again or contact me directly.",
+      ),
     header: {
       title: {
         text: `Chat with ${profile?.firstName || "Me"} `,
@@ -97,6 +108,19 @@ export function Chat({
     },
   });
 
+  if (error)
+    return (
+      <div className="p-6 space-y-4">
+        <p role="alert">{error}</p>
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          className="border rounded-lg px-4 py-2"
+        >
+          Reload to retry
+        </button>
+      </div>
+    );
   return <ChatKit control={control} className="h-full w-full z-50" />;
 }
 

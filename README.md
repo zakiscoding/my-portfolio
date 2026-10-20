@@ -1,38 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zakariye Mohamed — Engineering Portfolio
 
-## Getting Started
+Next.js 16 portfolio with Sanity Studio, Tailwind, Motion animations, theme switching, and an optional Clerk-authenticated ChatKit AI Twin.
 
-First, run the development server:
+## Development
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+Use Node.js 22.18+ or 24 and pnpm 10. On Windows, use `npx.cmd` if PowerShell restricts the script launcher.
+
+```sh
+pnpm install --frozen-lockfile
+cp .env.example .env.local
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000. Studio remains at `/studio`. The example uses verified public identifiers for the existing Sanity dataset; use your own values for an isolated deployment. Do not import `Data/` into production: it contains dummy seed records.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Content ownership
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See [the audit](docs/portfolio-audit.md) and [project evidence](docs/project-evidence.md).
 
-## Learn More
+- `lib/portfolio.ts` owns reviewed branding, about text, skills, experience, education, projects, and contribution status. `components/FloatingDock.tsx` owns navigation anchors. These local editorial choices override older CMS content without changing documents.
+- Sanity supplies profile name, contact details, profile image, certifications, achievements, services, and blog content. Live content and draft previews remain enabled for these sections.
+- Revise curated sections through a reviewed PR. Editing corresponding older Studio records will not update those sections until an explicit CMS migration is implemented.
+- TaskMesh was excluded at the owner's request; Housing Price MLOps fills its featured slot. Redis Clone is described from the latest verified C implementation, including TCP, RESP, key expiration, and string/list operations.
+- PR status is a verified snapshot dated October 19, 2026. Recheck linked upstream PRs before updating status.
+- QuickBite's preview is an authentic screenshot of its deployed sign-in page. Other cards use decorative code headers. Kash returned HTTP 403, so its demo link is omitted.
 
-To learn more about Next.js, take a look at the following resources:
+## Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` are required for CMS reads. Keep write tokens and OpenAI keys in server-only variables.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The contact form creates a `contact` document in the configured dataset. Set `SANITY_API_TOKEN` with the necessary create permission. Success means a message was saved in Studio; no email delivery is configured. Missing credentials and network failures produce visible feedback while retaining the message.
 
-## Deploy on Vercel
+The optional AI Twin requires `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY`, `OPENAI_API_KEY`, and `NEXT_PUBLIC_CHATKIT_WORKFLOW_ID`. Configure Clerk deployment domains and ChatKit domain settings as well. The public portfolio works without these settings and shows an unavailable message when chat is opened. Sessions are created server-side for authenticated Clerk users. Chat loads only when the sidebar opens.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+For draft previews, configure `SANITY_VIEWER_TOKEN`, the Studio URL, and preview origin. No browser token is passed to `defineLive`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# my-portfolio
-# my-portfolio
+## Checks
+
+```sh
+pnpm typecheck
+pnpm lint
+pnpm test
+pnpm build
+pnpm start
+```
+
+Lint uses the existing Biome setup; there is no ESLint configuration. Generated Sanity output is excluded. Tests cover contact validation, including malformed addresses, missing fields, oversized input, and file values. See [verification results](docs/verification.md) for browser checks and configuration limits.
+
+Deploy through the existing Next.js/Vercel integration with the existing Sanity dataset and production environment settings. This branch does not migrate CMS data or publish a new hosting target.
