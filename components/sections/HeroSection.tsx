@@ -3,6 +3,7 @@ import Link from "next/link";
 import { defineQuery } from "next-sanity";
 import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
+import { isChatConfigured } from "@/lib/integrations";
 import { branding } from "@/lib/portfolio";
 import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -42,12 +43,6 @@ export async function HeroSection() {
       <BackgroundRippleEffect rows={8} cols={27} cellSize={56} />
 
       <div className="relative z-10 container mx-auto max-w-6xl">
-        <div className="hero-masthead">
-          <a href="#home" aria-label="Home">
-            ZM<span className="hero-brand-accent">_</span>
-          </a>
-          <span>BACKEND / INFRASTRUCTURE / AI</span>
-        </div>
         <div className="@container">
           <div className="hero-grid grid grid-cols-1 @3xl:grid-cols-2 gap-12 items-center">
             {/* Text Content */}
@@ -157,6 +152,7 @@ export async function HeroSection() {
             {/* Profile Image */}
             {profile.profileImage ? (
               <ProfileImage
+                chatEnabled={isChatConfigured()}
                 imageUrl={urlFor(profile.profileImage)
                   .width(600)
                   .height(600)

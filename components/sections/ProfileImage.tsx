@@ -9,15 +9,30 @@ interface ProfileImageProps {
   imageUrl: string;
   firstName: string;
   lastName: string;
+  chatEnabled?: boolean;
 }
 
 export function ProfileImage({
   imageUrl,
   firstName,
   lastName,
+  chatEnabled = false,
 }: ProfileImageProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { toggleSidebar, open } = useSidebar();
+
+  if (!chatEnabled)
+    return (
+      <Image
+        src={imageUrl}
+        alt={`${firstName} ${lastName}`}
+        width={600}
+        height={600}
+        sizes="(min-width: 900px) 40vw, 100vw"
+        className="w-full border border-primary/30"
+        priority
+      />
+    );
 
   return (
     <button

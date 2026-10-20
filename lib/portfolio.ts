@@ -108,8 +108,10 @@ export type Project = {
   description: string;
   technologies: string[];
   accomplishments: string[];
+  highlights?: string[];
+  diagram?: { steps: string[]; caption: string };
   links: { label: string; href: string }[];
-  preview?: { src: string; alt: string };
+  preview?: { src: string; alt: string; caption: string };
   note?: string;
 };
 
@@ -118,7 +120,16 @@ const abyssProject: Project = {
   name: "Abyss",
   category: "AI Agent Orchestration · Team project",
   description:
-    "Collaborative hackathon platform where AI agents bid on tasks. My work spans backend execution, tool access, and a resilient real-time interface.",
+    "A collaborative AI agent marketplace with queued execution, MCP tools, and spending controls.",
+  preview: {
+    src: "/projects/abyss-replay.jpg",
+    alt: "Abyss running locally in its built-in fixture replay mode",
+    caption: "Local interface / fixture replay",
+  },
+  highlights: [
+    "Job queues, cancellation, and selective retries.",
+    "Configurable tools and per-session spending limits.",
+  ],
   technologies: [
     "Python",
     "FastAPI",
@@ -132,7 +143,7 @@ const abyssProject: Project = {
     "Added job queues, cancellation, selective task retries, and daily, weekly, and monthly spending limits.",
     "Improved reconnect event handling, responsive layouts, keyboard access, and result previews.",
   ],
-  note: "Collaborative team project; this repository is my fork of jtdao24/abyss.",
+  note: "Team project / fork of jtdao24/abyss.",
   links: [{ label: "GitHub", href: "https://github.com/zakiscoding/abysss" }],
 };
 
@@ -141,7 +152,15 @@ const redisProject: Project = {
   name: "Redis Clone",
   category: "Systems Programming",
   description:
-    "A Redis-like in-memory server written in C, with TCP sockets, RESP command parsing, string and list storage, and key expiration.",
+    "A Redis-like TCP server in C with RESP parsing, string/list operations, and key expiration.",
+  highlights: [
+    "Multiplexed TCP connections with select().",
+    "String/list commands and millisecond key expiration.",
+  ],
+  diagram: {
+    steps: ["TCP clients", "RESP parser", "In-memory store"],
+    caption: "Source-based flow / strings, lists, TTL",
+  },
   technologies: ["C", "TCP sockets", "RESP", "CMake"],
   accomplishments: [
     "Implemented a select-based loop to accept and handle multiple TCP client connections.",
@@ -161,7 +180,15 @@ export const featuredProjects: Project[] = [
     name: "Homelab Infrastructure",
     category: "Infrastructure & GPU workloads",
     description:
-      "A multi-node platform connecting backend services, a GPU worker, and a Next.js interface for local inference, RAG, and training experiments.",
+      "A multi-node platform for backend services, local inference, RAG, and GPU training.",
+    highlights: [
+      "Worker leases, retries, and Redis wakeups.",
+      "Cross-node monitoring and GPU-backed workflows.",
+    ],
+    diagram: {
+      steps: ["Next.js", "FastAPI", "Data + GPU workers"],
+      caption: "Source-based architecture / multi-node platform",
+    },
     technologies: [
       "FastAPI",
       "Docker Compose",
@@ -176,7 +203,7 @@ export const featuredProjects: Project[] = [
       "Configured Caddy, Tailscale networking, and Prometheus/Grafana monitoring across services and GPU workloads.",
       "Connected Ollama inference, document ingestion and retrieval, and LoRA training through backend APIs.",
     ],
-    note: "Source repositories are private; access is required.",
+    note: "Private source / access required.",
     links: [
       { label: "Architecture", href: "https://github.com/zakiscoding/homelab" },
       {
@@ -198,7 +225,15 @@ export const featuredProjects: Project[] = [
     name: "Housing Price MLOps",
     category: "Backend & ML delivery",
     description:
-      "An end-to-end housing-price pipeline with feature engineering, model tracking, REST inference, and container delivery to AWS.",
+      "A housing-price pipeline from feature engineering to tracked models and REST inference on AWS.",
+    highlights: [
+      "Optuna tuning with MLflow experiment tracking.",
+      "Container delivery through GitHub Actions to ECS.",
+    ],
+    diagram: {
+      steps: ["Features", "XGBoost", "FastAPI / ECS"],
+      caption: "Source-based pipeline / training to inference",
+    },
     technologies: [
       "Python",
       "FastAPI",
@@ -225,7 +260,15 @@ export const featuredProjects: Project[] = [
     name: "Kash",
     category: "Full-Stack Fintech",
     description:
-      "An expense tracker with account dashboards, categorized transactions, receipt scanning, and automated budget emails.",
+      "An expense tracker with AI receipt entry, recurring transactions, and budget alerts.",
+    highlights: [
+      "Authenticated accounts and transaction workflows.",
+      "Gemini receipt extraction and scheduled budget checks.",
+    ],
+    diagram: {
+      steps: ["Next.js", "Prisma", "PostgreSQL"],
+      caption: "Source-based architecture / persistent finance data",
+    },
     technologies: [
       "Next.js",
       "React",
@@ -247,7 +290,15 @@ export const featuredProjects: Project[] = [
     name: "EMOTION",
     category: "Multimodal AI",
     description:
-      "A MELD emotion and sentiment pipeline that combines text, video, and audio features with training, evaluation, and SageMaker deployment code.",
+      "A multimodal emotion and sentiment pipeline combining text, video, and audio on MELD.",
+    highlights: [
+      "BERT, R3D-18, and audio CNN feature fusion.",
+      "Held-out evaluation and SageMaker deployment code.",
+    ],
+    diagram: {
+      steps: ["BERT / R3D / CNN", "Feature fusion", "Emotion + sentiment"],
+      caption: "Source-based model / text, video, audio",
+    },
     technologies: [
       "Python",
       "PyTorch",
@@ -277,6 +328,7 @@ export const secondaryProjects: Project[] = [
     preview: {
       src: "/projects/quickbite.png",
       alt: "QuickBite demo sign-in screen, captured from the deployed application",
+      caption: "Deployed interface / sign-in screen",
     },
     category: "Collaborative full-stack project",
     description:
@@ -298,10 +350,14 @@ export const secondaryProjects: Project[] = [
       },
     ],
   },
-  redisProject,
   {
     id: "amazon-prime",
     name: "Amazon Prime CI/CD",
+    preview: {
+      src: "/projects/amazon-prime-pipeline.png",
+      alt: "Pipeline overview image from the Amazon Prime CI/CD repository",
+      caption: "Repository diagram / delivery pipeline",
+    },
     category: "Cloud delivery",
     description:
       "Delivery configuration for a React streaming-interface clone, with Jenkins pipelines, container packaging, and Kubernetes deployment files.",
@@ -321,7 +377,6 @@ export const secondaryProjects: Project[] = [
       { label: "GitHub", href: "https://github.com/zakiscoding/amazon-prime" },
     ],
   },
-  abyssProject,
 ];
 
 export const contributions = [

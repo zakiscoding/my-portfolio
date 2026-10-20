@@ -2,11 +2,19 @@
 
 import { useState, useTransition } from "react";
 import { submitContactForm } from "@/app/actions/submit-contact-form";
+import { buildContactEmailDraft } from "@/lib/contact-email";
+import { validateContact } from "@/lib/contact-validation";
 
-export function ContactForm() {
+export function ContactForm({
+  recipientEmail,
+  deliveryMode = "storage",
+}: {
+  recipientEmail: string;
+  deliveryMode?: "storage" | "email";
+}) {
   const [isPending, startTransition] = useTransition();
   const [status, setStatus] = useState<{
-    type: "success" | "error" | null;
+    type: "success" | "error" | "info" | null;
     message: string;
   }>({ type: null, message: "" });
 
@@ -14,6 +22,30 @@ export function ContactForm() {
     e.preventDefault();
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const validated = validateContact(formData);
+    if (validated.error) {
+      setStatus({ type: "error", message: validated.error });
+      return;
+    }
+    if (deliveryMode === "email") {
+      if (!recipientEmail) {
+        setStatus({
+          type: "error",
+          message: "Please use one of the contact links to get in touch.",
+        });
+        return;
+      }
+      window.location.href = buildContactEmailDraft(
+        recipientEmail,
+        validated.values,
+      );
+      setStatus({
+        type: "info",
+        message:
+          "Your email app should open with this draft. Send it there to deliver your message.",
+      });
+      return;
+    }
     setStatus({ type: null, message: "" });
     startTransition(async () => {
       try {
@@ -43,15 +75,24 @@ export function ContactForm() {
 
   return (
     <div className="bg-card border rounded-xl p-5 md:p-6">
-      <h3 className="text-xl font-semibold mb-6">Send a Message</h3>
+      <h3 className="text-xl font-semibold mb-3">
+        {deliveryMode === "email" ? "Write an Email" : "Send a Message"}
+      </h3>
+      <p className="text-sm text-muted-foreground mb-6">
+        {deliveryMode === "email"
+          ? "Opens a draft in your email app. You review and send it there."
+          : "Send a message directly through this form."}
+      </p>
 
       {status.type && (
         <div
           role={status.type === "error" ? "alert" : "status"}
           className={`mb-4 p-3 rounded-lg text-sm ${
-            status.type === "success"
-              ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
-              : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+            status.type === "info"
+              ? "bg-muted text-foreground"
+              : status.type === "success"
+                ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                : "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
           }`}
         >
           {status.message}
@@ -130,7 +171,11 @@ export function ContactForm() {
           disabled={isPending}
           className="w-full px-4 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isPending ? "Sending..." : "Send Message"}
+          {isPending
+            ? "Sending..."
+            : deliveryMode === "email"
+              ? "Open Email App"
+              : "Send Message"}
         </button>
       </form>
     </div>

@@ -1,52 +1,41 @@
-# Verification — October 19, 2026
+# Current verification
 
-Verified on Windows with Node.js 24.19.0, pnpm 10, the frozen dependency lockfile, and public Sanity read configuration. No production CMS records were changed.
+Checked on Windows with Node.js 24.19.0, the frozen pnpm lockfile, and public read access to the existing Sanity dataset. Production CMS documents were not changed.
 
 | Check | Result |
 | --- | --- |
-| `pnpm typecheck` | Passed |
-| `pnpm lint` | Passed, Biome checked 97 files |
-| `pnpm test` | Passed, 5 contact-validation tests |
-| `pnpm build` | Passed, production routes generated including `/studio` |
-| `git diff --check` | Passed |
-| Production browser console | No console errors or uncaught page errors |
-| Responsive widths | 320, 375, 768, 1024, 1440px; no horizontal document overflow |
-| Automated accessibility | axe WCAG 2 A/AA and 2.1 AA: zero violations on light and dark pages with secondary projects expanded, and on the mobile chat panel |
-| Content | Six visible featured cards, four expandable secondary cards, five experiences, two education entries, five engineering contribution summaries |
-| Navigation | Primary anchors resolve; mobile menu navigates to projects |
-| Chat | Desktop and mobile open/close work; missing-configuration message shown |
-| Contact | Missing-token feedback appears, and message input is preserved |
-| External demo | QuickBite returns 200 and displays sign-in; Kash returns 403 and is omitted |
+| TypeScript | Passed |
+| Biome | Passed, 101 files checked |
+| Automated tests | Seven passed: five validation cases and two email-draft encoding cases |
+| Production build | Passed, including `/studio` |
+| Diff whitespace | Passed |
+| Unique projects | Six featured, two secondary; no duplicate IDs |
+| Project details | Full accomplishments and stack expand with native details controls |
+| Previews | All images load and open at full size; diagrams identify their source-based nature |
+| Responsive layout | 320, 375, 768, 1024, 1101, 1280, 1440px without horizontal document overflow |
+| Accessibility | Zero axe WCAG 2 A/AA and 2.1 AA violations in tested light, dark, and mobile-menu states |
+| Navigation | Main anchors resolve; mobile selection closes the menu; Escape closes it and restores focus |
+| Themes | Light/dark changes work through the actual theme control |
+| Contact fallback | Draft opens through mailto; no POST or false success; input is retained |
+| Chat configuration | No launcher or sidebar is rendered when the required credentials are absent |
 
-Browser checks used Chromium through Playwright and `@axe-core/playwright` installed into a temporary QA directory, separate from project dependencies. Production `next start` was used for the final checks. Reviewed desktop/mobile project screenshots visually. The QuickBite screenshot committed in `public/projects/` is an authentic direct capture of its public sign-in page.
+Final browser checks use Playwright and axe against production `next start` on localhost:3000, the existing allowed Sanity origin. The local development server is restored after verification. The expected external mailto handoff is not treated as an application error in a headless browser; it is not evidence of email delivery.
 
-The test runner emits Node's non-failing module-type detection warning for the imported TypeScript validation file; all tests pass. There was no existing automated test suite or ESLint setup. The repository's existing Biome lint workflow was retained, with generated Sanity files excluded and LF line endings enforced across platforms.
+## Presentation
 
-## Visual consistency follow-up
+The cyberpunk interface retains the owner's plum/pink/lime styling. Header navigation, theme control and the optional configured AI Twin replace floating bottom controls. Each project shows a short description, a compact stack, and two highlights; engineering details retain the full source-grounded text. Redis Clone and Abyss appear only in Featured Projects. More Projects contains QuickBite and Amazon Prime CI/CD.
 
-Reviewed the live local hero, certifications and contact sections at desktop and mobile sizes. Removed the empty hero image column when no image exists, repeated introduction text, mismatched certificate styling/skill tags, and oversized contact-map layout. A shared section heading now controls typography and spacing, card radii are aligned, contact controls use readable text sizes, and hero/contact icons share one style. Certifications retain CMS identity and issue metadata and the Comet hover effect, without unrelated skill references or unverified expiry assertions. Added Certifications to navigation and initially distinguished merged/open PR badges visually; a later owner request replaced PR cards with plain contribution summaries.
+## Preview provenance
 
-Reduced-motion text is visible on the first render, Comet tilt respects reduced motion, and theme-menu hydration no longer produces mismatched generated IDs. Repeated the browser assertions at 320–1440px, expanded-project light/dark axe scans, mobile chat scan, contact failure/input retention and mobile navigation checks: passed with zero console/page errors. The local development server remains available for review.
+- `public/projects/abyss-replay.jpg`: direct browser screenshot of the actual `zakiscoding/abysss` interface at revision `1b7723ef5ebb97d4868e6dfdfa878e16d92afdd3`, running its built-in `?source=fixture&file=fake_run&calm=1` mode locally. The day control and start screen were operated normally. It is labeled as a fixture replay, not a production run or live deployment. No model calls or API keys were required.
+- `public/projects/quickbite.png`: direct screenshot of the deployed QuickBite sign-in page, previously verified to return HTTP 200.
+- `public/projects/amazon-prime-pipeline.png`: existing `src/Overview.png` from the reviewed Amazon Prime repository. It is labeled a repository diagram, not a screenshot of a deployed cluster.
+- Redis, Homelab, Housing and EMOTION use code-native architecture diagrams derived from their reviewed source. They make no benchmark claims and are explicitly labeled as source-based architecture or pipeline views.
 
-## Remaining configuration and verification limits
+## Configuration limits
 
-- `SANITY_API_TOKEN` is absent locally. Input validation and unavailable/error feedback were checked; a successful authenticated write to Sanity was not attempted. Contact messages are stored in Studio, not emailed.
-- Clerk credentials, an OpenAI API key and a ChatKit workflow are absent locally. The lazy chat UI, missing-configuration state and server error handling were checked; authenticated session creation and real AI responses require those settings and configured allowed domains.
-- Draft-mode entry, authenticated Studio access and live draft preview were not exercised without credentials. Existing CMS schema/configuration and preview routes remain intact; privileged Sanity tokens are no longer configured as browser tokens. Standalone draft preview outside Studio Presentation is intentionally not given a browser credential.
-- Automated accessibility checks complement the keyboard/mobile interactions and visual review; they do not establish exhaustive assistive-technology coverage.
-- Homelab sources are private. Public visitors need repository access; private addresses and secrets are not included.
-- The owner requested descriptive contribution summaries without individual PR links or status claims. Repo Intel and MyCalibrator RE are excluded from displayed projects; TaskMesh remains excluded.
-- Updated branding, project, skill, experience, education and navigation content is maintained locally. Existing Sanity documents are unchanged, and older corresponding Studio fields no longer control those curated sections. See README for the content ownership policy.
-- No deployment was requested or performed. Review and merge the feature PR through the existing deployment workflow.
+The local environment contains only the verified public Sanity read settings. `SANITY_API_TOKEN`, Clerk credentials, `OPENAI_API_KEY` and the ChatKit workflow are absent. Successful Sanity writes and authenticated AI responses cannot be verified locally. Existing server paths remain available when configured. The fallback email composer requires a visitor's email application, and sending occurs there.
 
-## Owner-requested content changes
+Authenticated Studio, standalone draft previews and live AI sessions were not tested without credentials. No browser write token is configured. Existing CMS ownership and configuration are documented in README.md. Homelab sources require private access. No individual contribution PR links, numbers or status badges are displayed. The eCornell verification link remains direct and has no invented issuance date.
 
-More Projects now shows QuickBite, Redis Clone, Amazon Prime CI/CD, and Abyss. Redis Clone and Abyss reuse the same reviewed definitions as their featured cards. Removed Repo Intel contribution entries and individual PR links/counts/status badges from public content. Abyss links to the owner-provided `https://github.com/zakiscoding/abysss` repository (verified to be a fork of the collaborative upstream project).
-
-Verified `https://mycredentials.ecornell.cornell.edu/credential/OEbTFqATTf` in the browser: HTTP 200, title "Machine Learning Foundations". Added a supplemental eCornell/Cornell University credential with that direct verification link, avoiding the LinkedIn redirect. No issue or expiration date was supplied or asserted. Existing Sanity records are unchanged.
-
-## Cyberpunk interface
-
-Applied the owner's supplied visual reference through plum backgrounds, neon pink/lime/cyan accents, outlined display typography, cut-corner engineering panels, striped project banners, angular cards, and a matching navigation dock. The layered hero graphic is code-native and decorative, with no fabricated screenshots or runtime metrics. Default theme is dark, with working light/system alternatives and an independent `portfolio-cyber-theme` storage preference. All portfolio content and existing interactions remain available.
-
-Verified responsive widths from 320px through 1440px, theme switching, mobile navigation, mobile form text sizes, reduced-motion headline visibility, and zero axe violations in tested light/dark/mobile views. The map now uses a stable SVG and CSS inversion so changing the default theme does not cause a hydration mismatch. TypeScript, Biome, and the production build were checked for this visual update.
+Automated accessibility checks complement responsive visual review and keyboard interactions; they do not establish exhaustive assistive-technology coverage. Node emits a non-failing module-type detection warning when running the TypeScript helper tests.

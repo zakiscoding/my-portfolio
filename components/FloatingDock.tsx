@@ -1,3 +1,4 @@
+import { isChatConfigured } from "@/lib/integrations";
 import { FloatingDockClient } from "./FloatingDockClient";
 
 // Curated anchors match rendered sections, including the contributions section.
@@ -21,6 +22,7 @@ export function FloatingDock() {
   return (
     <FloatingDockClient
       navItems={navItems}
+      chatEnabled={isChatConfigured()}
       authEnabled={Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)}
     />
   );

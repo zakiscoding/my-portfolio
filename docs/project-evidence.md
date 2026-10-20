@@ -53,3 +53,9 @@ TaskMesh is excluded from all rendered project and contribution content at the o
 The owner requested replacing MyCalibrator RE with Redis Clone and Repo Intel with Abyss in More Projects. Both replacements reuse the verified featured definitions. The owner also requested contribution descriptions without individual PR links, counts, or status claims; the displayed section now groups Abyss work into five engineering summaries. The initial PR audit above records research evidence rather than the current UI.
 
 The owner-provided [Abyss fork](https://github.com/zakiscoding/abysss) resolves publicly and GitHub confirms `jtdao24/abyss` as its parent. It is used for the project repository links, with collaborative attribution retained. The owner-provided [eCornell credential](https://mycredentials.ecornell.cornell.edu/credential/OEbTFqATTf) returned HTTP 200 and identifies "Machine Learning Foundations". The resume also lists this credential. Its verified title and direct verification URL are added locally without inventing issue/expiry dates or modifying CMS records.
+
+## Presentation polish
+
+Redis Clone and Abyss now appear once, in Featured Projects; More Projects contains QuickBite and Amazon Prime CI/CD. Native disclosures preserve full engineering details while short highlights improve scanning. Public contribution content remains descriptive and contains no individual PR links or status claims.
+
+The new Abyss preview is a genuine screenshot from the owner's fork (`1b7723ef5ebb97d4868e6dfdfa878e16d92afdd3`) running its own fixture-replay mode locally; the caption states this explicitly. The Amazon Prime preview is its existing `src/Overview.png` architecture image, labeled as a repository diagram. Other featured visuals are code-native source-based architecture diagrams, not fabricated application screenshots. See verification.md for provenance and runtime checks.

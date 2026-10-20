@@ -21,7 +21,7 @@ export async function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-20 px-6 pb-40 bg-muted/30">
+    <section id="contact" className="py-20 px-6 bg-muted/30">
       <div className="container mx-auto max-w-6xl">
         <SectionHeading
           title="Get In Touch"
@@ -165,7 +165,10 @@ export async function ContactSection() {
             </div>
 
             {/* Contact Form */}
-            <ContactForm />
+            <ContactForm
+              recipientEmail={profile.email || ""}
+              deliveryMode={process.env.SANITY_API_TOKEN ? "storage" : "email"}
+            />
           </div>
         </div>
       </div>

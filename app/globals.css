@@ -659,3 +659,230 @@ html {
 .cyber-dock-surface :is(a, button) > div:first-child {
   border-radius: 0;
 }
+
+/* Header controls occupy their own layout space instead of covering content. */
+html {
+  scroll-padding-top: 104px;
+}
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  width: 100%;
+  border-bottom: 1px solid var(--border);
+  background: var(--background);
+}
+.site-header-inner {
+  position: relative;
+  max-width: 1200px;
+  min-height: 76px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.site-brand {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -2px;
+  flex-shrink: 0;
+}
+.site-brand span {
+  color: var(--cyber-pink);
+}
+.site-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.site-navigation a {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  padding: 10px 0;
+  border-bottom: 2px solid transparent;
+}
+.site-navigation a:hover,
+.site-navigation a:focus-visible {
+  color: var(--primary);
+  border-bottom-color: var(--cyber-pink);
+}
+.site-header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.header-action {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  background: var(--popover);
+  color: var(--foreground);
+}
+.header-action:hover {
+  border-color: var(--primary);
+}
+.site-menu-toggle {
+  display: none;
+}
+#home {
+  min-height: calc(100svh - 76px);
+  padding-top: 56px;
+}
+.project-visual {
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+}
+.project-image-link {
+  height: 180px;
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--muted);
+}
+.cyber-project .project-image-link {
+  padding: 0;
+}
+.preview-expand {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 6px;
+  background: var(--cyber-lime);
+  color: var(--cyber-ink);
+}
+.project-visual figcaption {
+  padding: 9px 12px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+  background: var(--background);
+}
+.project-diagram {
+  height: 180px;
+  position: relative;
+  aspect-ratio: 16 / 9;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 28px;
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--primary) 5%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--primary) 5%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 18px 18px;
+}
+.diagram-label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: var(--primary);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+}
+.diagram-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.diagram-step {
+  position: relative;
+  min-height: 58px;
+  border: 1px solid var(--primary);
+  background: var(--background);
+  color: var(--foreground);
+  padding: 8px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+}
+.diagram-step:nth-child(2) {
+  border-color: var(--cyber-pink);
+}
+.diagram-arrow {
+  position: absolute;
+  right: -16px;
+  width: 14px;
+  height: 14px;
+  color: var(--primary);
+}
+.project-details {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.cyber-project .project-details > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border: 0;
+  padding: 4px 0;
+  font-size: 10px;
+  color: var(--primary);
+  list-style: none;
+}
+.project-details > summary::-webkit-details-marker {
+  display: none;
+}
+.project-details[open] > summary svg {
+  transform: rotate(180deg);
+}
+@media (max-width: 1100px) {
+  .site-header-inner {
+    gap: 16px;
+  }
+  .site-menu-toggle {
+    display: flex;
+  }
+  .site-navigation {
+    display: none;
+  }
+  .site-navigation[data-open="true"] {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 16px;
+    right: 16px;
+    padding: 12px;
+    background: var(--popover);
+    border: 1px solid var(--primary);
+    box-shadow: 4px 4px 0 var(--cyber-pink);
+  }
+  .site-navigation a {
+    font-size: 12px;
+    padding: 12px;
+  }
+}
+@media (max-width: 480px) {
+  .site-header-inner {
+    padding: 10px 24px;
+    min-height: 68px;
+  }
+  #home {
+    padding-top: 40px;
+  }
+}
