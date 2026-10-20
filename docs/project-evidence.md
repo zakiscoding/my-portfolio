@@ -6,7 +6,7 @@ Repositories and PR diffs were inspected read-only. Deployment configuration doe
 
 ### Abyss — team project
 
-[PRs by zakiscoding](https://github.com/jtdao24/abyss/pulls?q=is%3Apr+author%3Azakiscoding+is%3Amerged): GitHub API author and `merged_at` fields confirm 11 merged PRs (#1, #3–#12). Reviewed bodies document attachments/templates and hard budgets (#1), MCP catalog and per-session tools (#3), spending limits (#4), stop/queue/rerun/CI (#5), audio (#6), responsive layout (#7), stopped-job/result view (#8), selective retries (#9), reconnect event handling and accessibility (#10), texture lifecycle repair (#11), and day/night scenes (#12). The portfolio links each PR and attributes these as contributions to a collaborative platform.
+The owner requested plain contribution descriptions without individual PR links or merged-status claims. The portfolio describes MCP tools, job execution, spending controls, retries, and reconnect handling from the previously reviewed source. These are implementation capabilities, not measured performance or adoption results.
 
 ### Redis Clone
 
@@ -59,3 +59,8 @@ The owner-provided [Abyss fork](https://github.com/zakiscoding/abysss) resolves 
 Redis Clone and Abyss now appear once, in Featured Projects; More Projects contains QuickBite and Amazon Prime CI/CD. Native disclosures preserve full engineering details while short highlights improve scanning. Public contribution content remains descriptive and contains no individual PR links or status claims.
 
 The new Abyss preview is a genuine screenshot from the owner's fork (`1b7723ef5ebb97d4868e6dfdfa878e16d92afdd3`) running its own fixture-replay mode locally; the caption states this explicitly. The Amazon Prime preview is its existing `src/Overview.png` architecture image, labeled as a repository diagram. Other featured visuals are code-native source-based architecture diagrams, not fabricated application screenshots. See verification.md for provenance and runtime checks.
+
+
+### Audio CNN Visualizer
+
+Added to More Projects on October 20, 2026. Reviewed the public Audio_CNN README, model.py, and main.py. The residual CNN exposes intermediate feature maps; Modal inference resamples audio to 44.1 kHz, computes 128-bin mel-spectrograms, returns top-three predictions and visualization arrays. README documents ESC-50, MixUp, TensorBoard, checkpoints and the Next.js frontend. The deployed frontend returned HTTP 200; inference was not exercised. No accuracy or latency measurements are claimed.

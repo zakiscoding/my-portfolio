@@ -4,7 +4,6 @@ export function isChatConfigured() {
   return Boolean(
     process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY &&
       process.env.CLERK_SECRET_KEY &&
-      process.env.OPENAI_API_KEY &&
-      process.env.NEXT_PUBLIC_CHATKIT_WORKFLOW_ID?.trim(),
+      process.env.OPENAI_API_KEY,
   );
 }

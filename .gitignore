@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Discarded portrait iterations, retained locally only.
+/public/zakariye-portrait.jpg
+/public/zakariye-pixel-portrait.png

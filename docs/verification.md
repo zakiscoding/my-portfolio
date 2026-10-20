@@ -34,8 +34,18 @@ The cyberpunk interface retains the owner's plum/pink/lime styling. Header navig
 
 ## Configuration limits
 
-The local environment contains only the verified public Sanity read settings. `SANITY_API_TOKEN`, Clerk credentials, `OPENAI_API_KEY` and the ChatKit workflow are absent. Successful Sanity writes and authenticated AI responses cannot be verified locally. Existing server paths remain available when configured. The fallback email composer requires a visitor's email application, and sending occurs there.
+Vercel development settings have been pulled locally. Live Responses API checks using the local key returned nonempty, relevant answers for "ey who are u", "are u smart", and "expeince" in approximately 1.7?2.6 seconds. The new `/api/twin` endpoint requires Clerk authentication and limits history and message sizes. Empty provider output produces a visible error instead of a blank assistant bubble. Full browser chat verification with an authenticated user still requires the owner's sign-in.
 
 Authenticated Studio, standalone draft previews and live AI sessions were not tested without credentials. No browser write token is configured. Existing CMS ownership and configuration are documented in README.md. Homelab sources require private access. No individual contribution PR links, numbers or status badges are displayed. The eCornell verification link remains direct and has no invented issuance date.
 
 Automated accessibility checks complement responsive visual review and keyboard interactions; they do not establish exhaustive assistive-technology coverage. Node emits a non-failing module-type detection warning when running the TypeScript helper tests.
+
+
+### AI Twin and project outcomes
+
+The portfolio chat now uses a local React interface and server-side Responses API rather than the externally configured ChatKit workflow. Instructions and factual context come from `lib/twin.ts` and `lib/portfolio.ts`; message validation and output extraction have regression tests. The six featured cards show implemented outcomes grounded in the source review, not unverified speed, accuracy, revenue, or adoption metrics.
+
+
+### Expanded private analytics (October 20, 2026)
+
+Owner dashboard includes message counts, successful/failed replies, latency, topics, conversation groups and encrypted transcripts, game starts/completed runs and scores, resume-download clicks, project-link clicks and per-visitor totals. Browser checks verified game start/end and resume events in encrypted Sanity records, and confirmed signed-out pages reveal neither metrics nor conversations. Aggregation tests protect sign-in totals from unrelated event types and isolate conversation groups by user. Full conversation capture starts with this change; older messages are not backfilled. The local encryption key must be configured consistently on Vercel before deployment.

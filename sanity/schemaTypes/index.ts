@@ -6,8 +6,10 @@ import contact from "./contact";
 import education from "./education";
 import experience from "./experience";
 import navigation from "./navigation";
+import privateAnalyticsEvent from "./privateAnalyticsEvent";
 import profile from "./profile";
 import project from "./project";
+import runnerScore from "./runnerScore";
 import service from "./service";
 import siteSettings from "./siteSettings";
 import skill from "./skill";
@@ -16,6 +18,8 @@ import testimonial from "./testimonial";
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     profile,
+    privateAnalyticsEvent,
+    runnerScore,
     project,
     skill,
     experience,

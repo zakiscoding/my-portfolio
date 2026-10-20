@@ -5,10 +5,9 @@ import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect
 import { LayoutTextFlip } from "@/components/ui/layout-text-flip";
 import { isChatConfigured } from "@/lib/integrations";
 import { branding } from "@/lib/portfolio";
-import { urlFor } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
-import { EngineeringGraphic } from "./EngineeringGraphic";
-import { ProfileImage } from "./ProfileImage";
+import { HeroChatAvatar } from "./HeroChatAvatar";
+import { ResumeDownloads } from "./ResumeDownloads";
 
 const HERO_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
   firstName,
@@ -44,16 +43,19 @@ export async function HeroSection() {
 
       <div className="relative z-10 container mx-auto max-w-6xl">
         <div className="@container">
-          <div className="hero-grid grid grid-cols-1 @3xl:grid-cols-2 gap-12 items-center">
+          <div className="hero-content-grid">
             {/* Text Content */}
             <div className="@container/hero space-y-4 @md/hero:space-y-6">
               <p className="hero-eyebrow">
                 <span /> SOFTWARE ENGINEERING
               </p>
-              <h1 className="text-4xl @md/hero:text-5xl @lg/hero:text-7xl font-bold tracking-tight">
-                {profile.firstName}{" "}
-                <span className="text-primary">{profile.lastName}</span>
-              </h1>
+              <div className="hero-name-row">
+                <h1 className="text-4xl @md/hero:text-5xl @lg/hero:text-7xl font-bold tracking-tight">
+                  {profile.firstName}{" "}
+                  <span className="text-primary">{profile.lastName}</span>
+                </h1>
+                <HeroChatAvatar enabled={isChatConfigured()} />
+              </div>
               <p className="hero-role text-xl @md/hero:text-2xl text-muted-foreground font-medium">
                 {branding.headline}
               </p>
@@ -70,6 +72,7 @@ export async function HeroSection() {
                 {branding.introduction}
               </p>
 
+              <ResumeDownloads />
               {profile.socialLinks && (
                 <div className="flex flex-wrap gap-3 @md/hero:gap-4 pt-4">
                   {profile.socialLinks.github && (
@@ -148,21 +151,6 @@ export async function HeroSection() {
                 )}
               </div>
             </div>
-
-            {/* Profile Image */}
-            {profile.profileImage ? (
-              <ProfileImage
-                chatEnabled={isChatConfigured()}
-                imageUrl={urlFor(profile.profileImage)
-                  .width(600)
-                  .height(600)
-                  .url()}
-                firstName={profile.firstName || ""}
-                lastName={profile.lastName || ""}
-              />
-            ) : (
-              <EngineeringGraphic />
-            )}
           </div>
         </div>
       </div>

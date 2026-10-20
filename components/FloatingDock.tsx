@@ -1,3 +1,4 @@
+import { DEFAULT_ANALYTICS_OWNER_EMAIL } from "@/lib/analytics/owner";
 import { isChatConfigured } from "@/lib/integrations";
 import { FloatingDockClient } from "./FloatingDockClient";
 
@@ -22,6 +23,9 @@ export function FloatingDock() {
   return (
     <FloatingDockClient
       navItems={navItems}
+      analyticsOwnerEmail={
+        process.env.ANALYTICS_OWNER_EMAIL || DEFAULT_ANALYTICS_OWNER_EMAIL
+      }
       chatEnabled={isChatConfigured()}
       authEnabled={Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)}
     />
