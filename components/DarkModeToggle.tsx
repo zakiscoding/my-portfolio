@@ -2,6 +2,7 @@
 
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useSyncExternalStore } from "react";
 
 import {
   DropdownMenu,
@@ -10,8 +11,30 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const subscribe = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 export function ModeToggle() {
   const { setTheme } = useTheme();
+  const mounted = useSyncExternalStore(
+    subscribe,
+    clientSnapshot,
+    serverSnapshot,
+  );
+
+  if (!mounted) {
+    return (
+      <button
+        type="button"
+        disabled
+        aria-label="Toggle theme"
+        className="w-full h-full rounded-full border bg-background flex items-center justify-center"
+      >
+        <Sun aria-hidden="true" className="size-5 text-muted-foreground" />
+      </button>
+    );
+  }
 
   return (
     <DropdownMenu>
