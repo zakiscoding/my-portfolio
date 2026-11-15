@@ -41,11 +41,7 @@ export function twinSources(answer: string) {
     {
       label: "Education",
       href: "/#education",
-      terms: [
-        "Georgia State",
-        "Georgia Tech",
-        "Georgia Institute of Technology",
-      ],
+      terms: ["Georgia State"],
     },
     {
       label: "Skills",
