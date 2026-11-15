@@ -167,7 +167,12 @@ export async function ContactSection() {
             {/* Contact Form */}
             <ContactForm
               recipientEmail={profile.email || ""}
-              deliveryMode={process.env.SANITY_API_TOKEN ? "storage" : "email"}
+              deliveryMode={
+                process.env.SANITY_API_TOKEN ||
+                (process.env.RESEND_API_KEY && process.env.CONTACT_NOTIFY_EMAIL)
+                  ? "storage"
+                  : "email"
+              }
             />
           </div>
         </div>

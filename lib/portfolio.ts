@@ -183,47 +183,158 @@ export const featuredProjects: Project[] = [
   {
     id: "homelab",
     outcome:
-      "One job control plane connects queued backend work, document retrieval, local inference, and GPU training.",
-    name: "Homelab Infrastructure",
-    category: "Infrastructure & GPU workloads",
+      "One Postgres job queue drives chat, RAG, and GPU training across three home machines, with a keyed public LLM API and read-only dashboards.",
+    name: "Homelab AI Platform",
+    category: "Infrastructure & self-hosted AI",
     description:
-      "A multi-node platform for backend services, local inference, RAG, and GPU training.",
+      "A self-hosted AI platform across three home machines and Modal cloud GPUs, joined by Tailscale.",
     highlights: [
-      "Worker leases, retries, and Redis wakeups.",
-      "Cross-node monitoring and GPU-backed workflows.",
+      "Job leases, retries, and priorities; Redis only wakes workers.",
+      "Public vLLM API via Cloudflare tunnel, no open ports.",
     ],
     diagram: {
-      steps: ["Next.js", "FastAPI", "Data + GPU workers"],
-      caption: "Source-based architecture / multi-node platform",
+      steps: ["Cloudflare edge", "FastAPI + Postgres", "vLLM / GPU workers"],
+      caption: "Source-based architecture / three nodes + cloud GPUs",
     },
     technologies: [
       "FastAPI",
-      "Docker Compose",
       "PostgreSQL",
-      "Redis",
+      "vLLM",
       "Qdrant",
-      "PyTorch",
-      "MLflow",
+      "Cloudflare Workers",
+      "OpenTelemetry",
+      "Terraform",
     ],
     accomplishments: [
-      "Built a PostgreSQL job control plane with worker leases, retries, and Redis wake notifications.",
-      "Configured Caddy, Tailscale networking, and Prometheus/Grafana monitoring across services and GPU workloads.",
-      "Connected Ollama inference, document ingestion and retrieval, and LoRA training through backend APIs.",
+      "Built a PostgreSQL job queue with leases, retries, and priorities, using Redis only for wake signals; GPU workers renew leases during long QLoRA runs.",
+      "Exposed an OpenAI-compatible API for the home GPU through a Cloudflare Worker and outbound tunnel, with per-client keys, rate limits, and a hosted fallback.",
+      "Added OpenTelemetry tracing, five SLOs with burn-rate alerts, and public read-only Grafana dashboards; codified the edge in Terraform and the nodes in Ansible.",
     ],
-    note: "Private source / access required.",
     links: [
-      { label: "Architecture", href: "https://github.com/zakiscoding/homelab" },
+      { label: "Docs hub", href: "https://github.com/zakiscoding/homelab" },
       {
         label: "Services",
         href: "https://github.com/zakiscoding/homelab-services",
+      },
+      {
+        label: "Web UI",
+        href: "https://github.com/zakiscoding/homelab-web",
       },
       {
         label: "GPU worker",
         href: "https://github.com/zakiscoding/homelab-gpu",
       },
       {
-        label: "Web interface",
-        href: "https://github.com/zakiscoding/homelab-web",
+        label: "Live dashboards",
+        href: "https://grafana-proxy.vllm-gateway.workers.dev",
+      },
+    ],
+  },
+  {
+    id: "gpu-systems-lab",
+    outcome:
+      "Measured the same workloads on an RTX 5070 and on Modal H100s, from hand-written kernels to sharded training and LLM serving.",
+    name: "GPU Systems Lab",
+    category: "GPU systems & distributed training",
+    description:
+      "CUDA, MPI/NCCL, FSDP, and vLLM experiments from one RTX 5070 to multi-GPU H100s.",
+    highlights: [
+      "Warp-shuffle reduction at 641 GB/s (95% of DRAM peak).",
+      "FSDP2 trains a 5.6B model that OOMs under DDP.",
+    ],
+    diagram: {
+      steps: ["Job router", "RTX 5070 / Modal H100", "Results site"],
+      caption: "Source-based flow / local vs. cloud GPUs",
+    },
+    technologies: [
+      "CUDA",
+      "PyTorch",
+      "NCCL",
+      "MPI",
+      "vLLM",
+      "k3s",
+      "Go",
+      "Modal",
+    ],
+    accomplishments: [
+      "Wrote CUDA kernels, including a warp-shuffle reduction at 641 GB/s, and measured NCCL all-reduce at 329 GB/s on 2× H100.",
+      "Trained a 5.6B model with FSDP2 that runs out of memory under DDP; compared DeepSpeed ZeRO stages and recovered a killed rank in 11–14 s with elastic restart.",
+      "Built a router that runs jobs on the local GPU when they fit, otherwise on the cheapest Modal GPU meeting VRAM, deadline, and cost limits; added a Go GpuJob Kubernetes operator.",
+    ],
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/zakiscoding/gpu-systems-lab",
+      },
+      {
+        label: "Results",
+        href: "https://gpu-systems-lab-results.vllm-gateway.workers.dev",
+      },
+    ],
+  },
+  {
+    id: "gophergrid",
+    outcome:
+      "Killing the leader on the homelab hands off in about 5 s with 600/600 jobs and zero duplicate results.",
+    name: "GopherGrid",
+    category: "Distributed systems",
+    description:
+      "A distributed compute scheduler in Go with GPU-aware placement, leases, and exactly-once results.",
+    highlights: [
+      "etcd leader election with fenced writes.",
+      "276 → 1,269 jobs/s after three measured fixes.",
+    ],
+    diagram: {
+      steps: ["REST submit", "Leader scheduler", "gRPC workers"],
+      caption: "Source-based architecture / leases + heartbeats",
+    },
+    technologies: ["Go", "gRPC", "PostgreSQL", "etcd", "Rust", "Prometheus"],
+    accomplishments: [
+      "Elected leaders in etcd with fenced Postgres writes so retried jobs still record exactly one result.",
+      "Cut burst queue latency p50 from 5.6 s to 27 ms with eager worker sync and heartbeat long polling.",
+      "Ran real LLM and matmul benchmark jobs on the homelab RTX 5070 next to the live vLLM server, plus a Rust worker on the same gRPC protocol.",
+    ],
+    links: [
+      { label: "GitHub", href: "https://github.com/zakiscoding/gophergrid" },
+    ],
+  },
+  {
+    id: "trading-engine",
+    outcome:
+      "A single pinned thread parses, books, decides, and sends orders with no allocation, locks, or logging on the hot path.",
+    name: "Low-Latency Trading Engine",
+    category: "Systems performance · Paper trading",
+    description:
+      "A C++20 tick-to-trade engine on live crypto feeds and replayed NASDAQ ITCH data, trading only on paper.",
+    highlights: [
+      "Zero-copy ITCH 5.0 parser and bitmap order book.",
+      "Optional AF_XDP receive path with hand-written eBPF.",
+    ],
+    diagram: {
+      steps: ["Market feed", "Engine hot path", "Paper exchange"],
+      caption: "Source-based flow / tick to trade",
+    },
+    technologies: [
+      "C++20",
+      "AF_XDP / eBPF",
+      "Go",
+      "Cloudflare Durable Objects",
+      "QuestDB",
+    ],
+    accomplishments: [
+      "Built a zero-copy ITCH 5.0 parser, a bitmap price-level order book, and a price-time matching engine that does not allocate after startup.",
+      "Enforced engine-side risk limits: order size, position, notional, price band, rate limits, daily loss, and a kill switch.",
+      "Streamed telemetry over a lock-free shared-memory ring to a Cloudflare web terminal with per-user paper accounts.",
+    ],
+    note: "Paper trading only / no real orders.",
+    links: [
+      {
+        label: "GitHub",
+        href: "https://github.com/zakiscoding/low-latency-trading-engine",
+      },
+      {
+        label: "Paper trading",
+        href: "https://paper-trading.vllm-gateway.workers.dev",
       },
     ],
   },
