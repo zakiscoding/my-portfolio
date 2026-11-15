@@ -28,7 +28,7 @@ The test runner emits Node's non-failing module-type detection warning for the i
 - Clerk credentials, an OpenAI API key and a ChatKit workflow are absent locally. The lazy chat UI, missing-configuration state and server error handling were checked; authenticated session creation and real AI responses require those settings and configured allowed domains.
 - Draft-mode entry, authenticated Studio access and live draft preview were not exercised without credentials. Existing CMS schema/configuration and preview routes remain intact; privileged Sanity tokens are no longer configured as browser tokens. Standalone draft preview outside Studio Presentation is intentionally not given a browser credential.
 - Automated accessibility checks complement the keyboard/mobile interactions and visual review; they do not establish exhaustive assistive-technology coverage.
-- Homelab, GPU Systems Lab, GopherGrid and trading-engine repositories were public on November 14, 2026. Cards omit private addresses, hostnames and secrets.
+- Homelab sources are private. Public visitors need repository access; private addresses and secrets are not included.
 - Upstream PR statuses are a dated snapshot. Abyss has 11 verified merged PRs; the two Repo Intel PRs are open. TaskMesh is excluded at the owner's request.
 - Updated branding, project, skill, experience, education and navigation content is maintained locally. Existing Sanity documents are unchanged, and older corresponding Studio fields no longer control those curated sections. See README for the content ownership policy.
 - No deployment was requested or performed. Review and merge the feature PR through the existing deployment workflow.
