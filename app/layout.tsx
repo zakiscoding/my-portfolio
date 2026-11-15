@@ -1,8 +1,14 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Pixelify_Sans } from "next/font/google";
 import "./globals.css";
 
+const pixelFont = Pixelify_Sans({
+  variable: "--font-pixel",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
@@ -10,9 +16,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://zakariye-mohamed.vercel.app"),
   title: "Zakariye Mohamed | Backend & Infrastructure Software Engineer",
   description:
     "Backend systems, cloud infrastructure, and applied AI. Explore Zakariye Mohamed's projects, engineering experience, and open-source contributions.",
+  openGraph: {
+    type: "website",
+    url: "https://zakariye-mohamed.vercel.app/",
+    siteName: "Zakariye Mohamed's Portfolio",
+    title: "Zakariye Mohamed | Software Engineering Portfolio",
+    description:
+      "Explore my backend, cloud infrastructure, and AI projects—and meet my AI Twin.",
+    images: [
+      {
+        url: "/portfolio-preview-minimal.png",
+        width: 1733,
+        height: 907,
+        alt: "Zakariye Mohamed — Backend / Cloud / AI, in neon lime and white on a deep plum background",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Zakariye Mohamed | Software Engineering Portfolio",
+    description: "Backend systems, cloud infrastructure, and applied AI.",
+    images: ["/portfolio-preview-minimal.png"],
+  },
 };
 
 export default function RootLayout({
@@ -21,9 +50,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const content = (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${pixelFont.variable} antialiased`}
       >
         {children}
       </body>

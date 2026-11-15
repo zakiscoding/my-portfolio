@@ -1,3 +1,5 @@
+import { DEFAULT_ANALYTICS_OWNER_EMAIL } from "@/lib/analytics/owner";
+import { isChatConfigured } from "@/lib/integrations";
 import { FloatingDockClient } from "./FloatingDockClient";
 
 // Curated anchors match rendered sections, including the contributions section.
@@ -14,12 +16,17 @@ const navItems = [
   { title: "Contact", href: "#contact", icon: "IconMail" },
   { title: "About", href: "#about", icon: "IconUser" },
   { title: "Education", href: "#education", icon: "IconSchool" },
+  { title: "Certifications", href: "#certifications", icon: "IconAward" },
 ];
 
 export function FloatingDock() {
   return (
     <FloatingDockClient
       navItems={navItems}
+      analyticsOwnerEmail={
+        process.env.ANALYTICS_OWNER_EMAIL || DEFAULT_ANALYTICS_OWNER_EMAIL
+      }
+      chatEnabled={isChatConfigured()}
       authEnabled={Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY)}
     />
   );

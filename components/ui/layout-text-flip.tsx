@@ -39,7 +39,7 @@ export const LayoutTextFlip = ({
         layout={!reduceMotion}
         className="relative inline-block overflow-hidden rounded-lg border border-primary/20 bg-primary/10 px-3 py-1 backdrop-blur-sm"
       >
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
             key={currentIndex}
             initial={{ y: -40, filter: "blur(10px)", opacity: 0 }}

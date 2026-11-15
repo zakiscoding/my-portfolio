@@ -1,17 +1,14 @@
 import { skillGroups } from "@/lib/portfolio";
+import { SectionHeading } from "./SectionHeading";
 
 export function SkillsSection() {
   return (
     <section id="skills" className="py-20 px-6 bg-muted/30">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Skills & Expertise
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Tools I've used across my work and projects
-          </p>
-        </div>
+        <SectionHeading
+          title="Skills & Expertise"
+          description="Tools I use across my work and projects"
+        />
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skillGroups.map((group) => (
             <div

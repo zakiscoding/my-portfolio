@@ -1,34 +1,51 @@
-# Verification — October 19, 2026
+# Current verification
 
-Verified on Windows with Node.js 24.19.0, pnpm 10, the frozen dependency lockfile, and public Sanity read configuration. No production CMS records were changed.
+Checked on Windows with Node.js 24.19.0, the frozen pnpm lockfile, and public read access to the existing Sanity dataset. Production CMS documents were not changed.
 
 | Check | Result |
 | --- | --- |
-| `pnpm typecheck` | Passed |
-| `pnpm lint` | Passed, Biome checked 95 files |
-| `pnpm test` | Passed, 5 contact-validation tests |
-| `pnpm build` | Passed, production routes generated including `/studio` |
-| `git diff --check` | Passed |
-| Production browser console | No console errors or uncaught page errors |
-| Responsive widths | 320, 375, 768, 1024, 1440px; no horizontal document overflow |
-| Automated accessibility | axe WCAG 2 A/AA and 2.1 AA: zero violations on light and dark pages with secondary projects expanded, and on the mobile chat panel |
-| Content | Six visible featured cards, four expandable secondary cards, five experiences, two education entries, thirteen linked contribution PRs |
-| Navigation | Primary anchors resolve; mobile menu navigates to projects |
-| Chat | Desktop and mobile open/close work; missing-configuration message shown |
-| Contact | Missing-token feedback appears, and message input is preserved |
-| External demo | QuickBite returns 200 and displays sign-in; Kash returns 403 and is omitted |
+| TypeScript | Passed |
+| Biome | Passed, 101 files checked |
+| Automated tests | Seven passed: five validation cases and two email-draft encoding cases |
+| Production build | Passed, including `/studio` |
+| Diff whitespace | Passed |
+| Unique projects | Six featured, two secondary; no duplicate IDs |
+| Project details | Full accomplishments and stack expand with native details controls |
+| Previews | All images load and open at full size; diagrams identify their source-based nature |
+| Responsive layout | 320, 375, 768, 1024, 1101, 1280, 1440px without horizontal document overflow |
+| Accessibility | Zero axe WCAG 2 A/AA and 2.1 AA violations in tested light, dark, and mobile-menu states |
+| Navigation | Main anchors resolve; mobile selection closes the menu; Escape closes it and restores focus |
+| Themes | Light/dark changes work through the actual theme control |
+| Contact fallback | Draft opens through mailto; no POST or false success; input is retained |
+| Chat configuration | No launcher or sidebar is rendered when the required credentials are absent |
 
-Browser checks used Chromium through Playwright and `@axe-core/playwright` installed into a temporary QA directory, separate from project dependencies. Production `next start` was used for the final checks. Reviewed desktop/mobile project screenshots visually. The QuickBite screenshot committed in `public/projects/` is an authentic direct capture of its public sign-in page.
+Final browser checks use Playwright and axe against production `next start` on localhost:3000, the existing allowed Sanity origin. The local development server is restored after verification. The expected external mailto handoff is not treated as an application error in a headless browser; it is not evidence of email delivery.
 
-The test runner emits Node's non-failing module-type detection warning for the imported TypeScript validation file; all tests pass. There was no existing automated test suite or ESLint setup. The repository's existing Biome lint workflow was retained, with generated Sanity files excluded and LF line endings enforced across platforms.
+## Presentation
 
-## Remaining configuration and verification limits
+The cyberpunk interface retains the owner's plum/pink/lime styling. Header navigation, theme control and the optional configured AI Twin replace floating bottom controls. Each project shows a short description, a compact stack, and two highlights; engineering details retain the full source-grounded text. Redis Clone and Abyss appear only in Featured Projects. More Projects contains QuickBite and Amazon Prime CI/CD.
 
-- `SANITY_API_TOKEN` is absent locally. Input validation and unavailable/error feedback were checked; a successful authenticated write to Sanity was not attempted. Contact messages are stored in Studio, not emailed.
-- Clerk credentials, an OpenAI API key and a ChatKit workflow are absent locally. The lazy chat UI, missing-configuration state and server error handling were checked; authenticated session creation and real AI responses require those settings and configured allowed domains.
-- Draft-mode entry, authenticated Studio access and live draft preview were not exercised without credentials. Existing CMS schema/configuration and preview routes remain intact; privileged Sanity tokens are no longer configured as browser tokens. Standalone draft preview outside Studio Presentation is intentionally not given a browser credential.
-- Automated accessibility checks complement the keyboard/mobile interactions and visual review; they do not establish exhaustive assistive-technology coverage.
-- Homelab sources are private. Public visitors need repository access; private addresses and secrets are not included.
-- Upstream PR statuses are a dated snapshot. Abyss has 11 verified merged PRs; the two Repo Intel PRs are open. TaskMesh is excluded at the owner's request.
-- Updated branding, project, skill, experience, education and navigation content is maintained locally. Existing Sanity documents are unchanged, and older corresponding Studio fields no longer control those curated sections. See README for the content ownership policy.
-- No deployment was requested or performed. Review and merge the feature PR through the existing deployment workflow.
+## Preview provenance
+
+- `public/projects/abyss-replay.jpg`: direct browser screenshot of the actual `zakiscoding/abysss` interface at revision `1b7723ef5ebb97d4868e6dfdfa878e16d92afdd3`, running its built-in `?source=fixture&file=fake_run&calm=1` mode locally. The day control and start screen were operated normally. It is labeled as a fixture replay, not a production run or live deployment. No model calls or API keys were required.
+- `public/projects/quickbite.png`: direct screenshot of the deployed QuickBite sign-in page, previously verified to return HTTP 200.
+- `public/projects/amazon-prime-pipeline.png`: existing `src/Overview.png` from the reviewed Amazon Prime repository. It is labeled a repository diagram, not a screenshot of a deployed cluster.
+- Redis, Homelab, Housing and EMOTION use code-native architecture diagrams derived from their reviewed source. They make no benchmark claims and are explicitly labeled as source-based architecture or pipeline views.
+
+## Configuration limits
+
+Vercel development settings have been pulled locally. Live Responses API checks using the local key returned nonempty, relevant answers for "ey who are u", "are u smart", and "expeince" in approximately 1.7?2.6 seconds. The new `/api/twin` endpoint requires Clerk authentication and limits history and message sizes. Empty provider output produces a visible error instead of a blank assistant bubble. Full browser chat verification with an authenticated user still requires the owner's sign-in.
+
+Authenticated Studio, standalone draft previews and live AI sessions were not tested without credentials. No browser write token is configured. Existing CMS ownership and configuration are documented in README.md. Homelab sources require private access. No individual contribution PR links, numbers or status badges are displayed. The eCornell verification link remains direct and has no invented issuance date.
+
+Automated accessibility checks complement responsive visual review and keyboard interactions; they do not establish exhaustive assistive-technology coverage. Node emits a non-failing module-type detection warning when running the TypeScript helper tests.
+
+
+### AI Twin and project outcomes
+
+The portfolio chat now uses a local React interface and server-side Responses API rather than the externally configured ChatKit workflow. Instructions and factual context come from `lib/twin.ts` and `lib/portfolio.ts`; message validation and output extraction have regression tests. The six featured cards show implemented outcomes grounded in the source review, not unverified speed, accuracy, revenue, or adoption metrics.
+
+
+### Expanded private analytics (October 20, 2026)
+
+Owner dashboard includes message counts, successful/failed replies, latency, topics, conversation groups and encrypted transcripts, game starts/completed runs and scores, resume-download clicks, project-link clicks and per-visitor totals. Browser checks verified game start/end and resume events in encrypted Sanity records, and confirmed signed-out pages reveal neither metrics nor conversations. Aggregation tests protect sign-in totals from unrelated event types and isolate conversation groups by user. Full conversation capture starts with this change; older messages are not backfilled. The local encryption key must be configured consistently on Vercel before deployment.
