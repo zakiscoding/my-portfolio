@@ -64,16 +64,9 @@ export const education = [
   {
     institution: "Georgia State University",
     degree: "B.S. Computer Science",
-    status: "Expected May 2027",
+    status: "2023 – 2027",
     detail:
       "Major GPA: 3.8. Coursework includes algorithms, operating systems, systems-level programming, and machine learning.",
-  },
-  {
-    institution: "Georgia Institute of Technology",
-    degree: "M.S. Computer Science",
-    status: "Admitted",
-    detail:
-      "Expected enrollment after graduating from Georgia State in May 2027.",
   },
 ];
 
