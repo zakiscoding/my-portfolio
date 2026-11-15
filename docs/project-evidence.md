@@ -12,7 +12,27 @@ Repositories and PR diffs were inspected read-only. Deployment configuration doe
 
 The initial audit revision `c7865d7fe24fdf53b637d49d5c5b7473df1f508f` contained only a README. A final upstream recheck found a force update to `8c3036d553ebeaca10e750c2bb79682b123bb504`. Inspected the full [src/main.c](https://github.com/zakiscoding/redis-clone/blob/8c3036d553ebeaca10e750c2bb79682b123bb504/src/main.c), CMakeLists.txt and launch script. Source implements TCP sockets and a `select()` client loop, RESP array/bulk-string parsing and replies, in-memory string/list entries, counters, conditional SET, EX/PX expiry, TTL/PTTL, deletion and list operations. The card accurately says **C**, not C++, and makes no latency, nonblocking-I/O, persistence or production-reliability claims. No live demo was verified.
 
-### Homelab Infrastructure
+### Homelab projects — update of November 14, 2026
+
+All seven repositories linked from the homelab docs hub are now public. This update reads each README at the revision below; the numbers on the cards come from those READMEs and their linked results files. The code was not re-run for this update.
+
+| Repository | Revision |
+| --- | --- |
+| [homelab](https://github.com/zakiscoding/homelab) | `069b43b7d368ee177cd08a0da25c731fc072e149` |
+| [homelab-services](https://github.com/zakiscoding/homelab-services) | `573985618bf3bcb228713e47152ccabecf28457a` |
+| [homelab-gpu](https://github.com/zakiscoding/homelab-gpu) | `f4a8603882b42a24ccb32d1695e5524cb245487b` |
+| [homelab-web](https://github.com/zakiscoding/homelab-web) | `bbbbdbbfce06e5c49cd14a32bd098d75557b4441` |
+| [gpu-systems-lab](https://github.com/zakiscoding/gpu-systems-lab) | `d0fd08a76e07fa8c0ff4b5f61ccbf8918839c9d2` |
+| [gophergrid](https://github.com/zakiscoding/gophergrid) | head of `main` on November 14, 2026 |
+| [low-latency-trading-engine](https://github.com/zakiscoding/low-latency-trading-engine) | head of `main` on November 14, 2026 |
+
+- **Homelab AI Platform** (renamed from Homelab Infrastructure): the job queue, Cloudflare gateway, OpenTelemetry/SLO alerting, public dashboards and Terraform/Ansible claims come from the homelab and homelab-services READMEs. The infra README says Terraform/Ansible are not yet applied to the real account and nodes, so the card says "codified", not "deployed with". The "private" note was removed.
+- **GPU Systems Lab:** kernel, NCCL, FSDP2/DeepSpeed, elastic restart, router and operator claims come from the README's "What's inside" and its tour table. The operator was tested with envtest and kind; the real-node run is unclaimed.
+- **GopherGrid:** failover, throughput and latency figures come from the README's headline table (laptop Docker runs plus the homelab run).
+- **Low-Latency Trading Engine:** the README says every latency number was measured on a laptop VM, so the card states no latency figures. The README calls the web UI "not deployed yet", but the homelab hub lists it as live, and the paper-trading URL returned HTTP 200 on November 14, 2026.
+- The public dashboards, results page and paper-trading URLs returned HTTP 200 on November 14, 2026.
+
+### Homelab Infrastructure (original audit, October 19, 2026)
 
 Inspected four private repositories:
 
