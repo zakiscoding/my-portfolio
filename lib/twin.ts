@@ -21,9 +21,7 @@ ${JSON.stringify({ name: "Zakariye Mohamed", branding, education, experiences, s
 export function twinSources(answer: string) {
   return matchTwinSources(answer, [
     ...[...featuredProjects, ...secondaryProjects].map((project) => ({
-      label:
-        project.name +
-        (project.id === "homelab" ? " (private source)" : " source"),
+      label: `${project.name} source`,
       href: project.links[0].href,
       terms: [
         project.name,
@@ -31,6 +29,8 @@ export function twinSources(answer: string) {
         ...(project.id === "housing-mlops"
           ? ["housing price", "housing regression"]
           : []),
+        ...(project.id === "homelab" ? ["homelab"] : []),
+        ...(project.id === "trading-engine" ? ["trading engine"] : []),
       ],
     })),
     ...experiences.map((experience) => ({

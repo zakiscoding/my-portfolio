@@ -49,7 +49,9 @@ export async function POST(request: Request) {
     const topic =
       /experience|intern|work|role|ibm|incomm|signify|cornell/i.test(latest)
         ? "Experience"
-        : /project|redis|abyss|homelab|audio|kash/i.test(latest)
+        : /project|redis|abyss|homelab|gpu|gophergrid|trading|audio|kash/i.test(
+              latest,
+            )
           ? "Projects"
           : /skill|python|language|technology/i.test(latest)
             ? "Skills"
