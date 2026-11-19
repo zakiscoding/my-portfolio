@@ -2,14 +2,11 @@
 
 import { useState, useTransition } from "react";
 import { submitContactForm } from "@/app/actions/submit-contact-form";
-import { buildContactEmailDraft } from "@/lib/contact-email";
 import { validateContact } from "@/lib/contact-validation";
 
 export function ContactForm({
-  recipientEmail,
   deliveryMode = "storage",
 }: {
-  recipientEmail: string;
   deliveryMode?: "storage" | "email";
 }) {
   const [isPending, startTransition] = useTransition();
@@ -28,21 +25,10 @@ export function ContactForm({
       return;
     }
     if (deliveryMode === "email") {
-      if (!recipientEmail) {
-        setStatus({
-          type: "error",
-          message: "Please use one of the contact links to get in touch.",
-        });
-        return;
-      }
-      window.location.href = buildContactEmailDraft(
-        recipientEmail,
-        validated.values,
-      );
       setStatus({
-        type: "info",
+        type: "error",
         message:
-          "Your email app should open with this draft. Send it there to deliver your message.",
+          "Direct email is unavailable. Please use GitHub or LinkedIn instead.",
       });
       return;
     }
@@ -67,7 +53,8 @@ export function ContactForm({
       } catch {
         setStatus({
           type: "error",
-          message: "Could not connect. Please try again or use the email link.",
+          message:
+            "Could not connect. Please try again or reach out on GitHub or LinkedIn.",
         });
       }
     });
@@ -75,12 +62,10 @@ export function ContactForm({
 
   return (
     <div className="bg-card border rounded-xl p-5 md:p-6">
-      <h3 className="text-xl font-semibold mb-3">
-        {deliveryMode === "email" ? "Write an Email" : "Send a Message"}
-      </h3>
+      <h3 className="text-xl font-semibold mb-3">Send a Message</h3>
       <p className="text-sm text-muted-foreground mb-6">
         {deliveryMode === "email"
-          ? "Opens a draft in your email app. You review and send it there."
+          ? "The contact form needs server delivery configured. Use GitHub or LinkedIn for now."
           : "Send a message directly through this form."}
       </p>
 
@@ -171,11 +156,7 @@ export function ContactForm({
           disabled={isPending}
           className="w-full px-4 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isPending
-            ? "Sending..."
-            : deliveryMode === "email"
-              ? "Open Email App"
-              : "Send Message"}
+          {isPending ? "Sending..." : "Send Message"}
         </button>
       </form>
     </div>
