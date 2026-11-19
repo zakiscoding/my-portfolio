@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from "lucide-react";
+import { MapPin } from "lucide-react";
 import Link from "next/link";
 import { defineQuery } from "next-sanity";
 import WorldMapDemo from "@/components/world-map-demo";
@@ -7,8 +7,6 @@ import { ContactForm } from "./ContactForm";
 import { SectionHeading } from "./SectionHeading";
 
 const PROFILE_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
-  email,
-  phone,
   location,
   socialLinks
 }`);
@@ -35,40 +33,6 @@ export async function ContactSection() {
               <h3 className="text-xl font-semibold mb-6">
                 Contact Information
               </h3>
-
-              {profile.email && (
-                <div className="flex items-start gap-3 @md/info:gap-4">
-                  <div className="w-10 h-10 @md/info:w-12 @md/info:h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Mail aria-hidden="true" className="size-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold mb-1 text-sm">Email</h4>
-                    <Link
-                      href={`mailto:${profile.email}`}
-                      className="text-muted-foreground hover:text-primary transition-colors text-base break-all block"
-                    >
-                      {profile.email}
-                    </Link>
-                  </div>
-                </div>
-              )}
-
-              {profile.phone && (
-                <div className="flex items-start gap-3 @md/info:gap-4">
-                  <div className="w-10 h-10 @md/info:w-12 @md/info:h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Phone aria-hidden="true" className="size-5" />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold mb-1 text-sm">Phone</h4>
-                    <Link
-                      href={`tel:${profile.phone}`}
-                      className="text-muted-foreground hover:text-primary transition-colors text-base"
-                    >
-                      {profile.phone}
-                    </Link>
-                  </div>
-                </div>
-              )}
 
               {profile.location && (
                 <div className="flex items-start gap-3 @md/info:gap-4">
@@ -166,7 +130,6 @@ export async function ContactSection() {
 
             {/* Contact Form */}
             <ContactForm
-              recipientEmail={profile.email || ""}
               deliveryMode={
                 process.env.SANITY_API_TOKEN ||
                 (process.env.RESEND_API_KEY && process.env.CONTACT_NOTIFY_EMAIL)
