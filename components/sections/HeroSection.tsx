@@ -1,4 +1,4 @@
-import { CheckCircle2, Mail, MapPin } from "lucide-react";
+import { CheckCircle2, MapPin } from "lucide-react";
 import Link from "next/link";
 import { defineQuery } from "next-sanity";
 import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect";
@@ -17,8 +17,6 @@ const HERO_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
   headlineAnimatedWords,
   headlineAnimationDuration,
   shortBio,
-  email,
-  phone,
   location,
   availability,
   socialLinks,
@@ -119,17 +117,6 @@ export async function HeroSection() {
               )}
 
               <div className="flex flex-wrap gap-4 @md/hero:gap-6 pt-4 text-xs @md/hero:text-sm text-muted-foreground">
-                {profile.email && (
-                  <div className="flex items-center gap-2">
-                    <Mail aria-hidden="true" className="size-4 shrink-0" />
-                    <a
-                      href={`mailto:${profile.email}`}
-                      className="break-all hover:underline"
-                    >
-                      {profile.email}
-                    </a>
-                  </div>
-                )}
                 {profile.location && (
                   <div className="flex items-center gap-2">
                     <MapPin aria-hidden="true" className="size-4 shrink-0" />
