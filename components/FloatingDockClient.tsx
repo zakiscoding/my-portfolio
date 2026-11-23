@@ -39,16 +39,14 @@ function AuthenticatedHeader(props: HeaderProps) {
   const verifiedEmails = (user?.emailAddresses || [])
     .filter((email) => email.verification?.status === "verified")
     .map((email) => email.emailAddress.trim().toLowerCase())
-    .join("
-");
+    .join(",");
   useEffect(() => {
     let active = true;
     if (!isSignedIn || !ownerHash || !verifiedEmails) {
       setCanViewAnalytics(false);
       return;
     }
-    void Promise.all(verifiedEmails.split("
-").map(sha256Hex)).then(
+    void Promise.all(verifiedEmails.split(",").map(sha256Hex)).then(
       (hashes) => {
         if (active) setCanViewAnalytics(hashes.includes(ownerHash));
       },
