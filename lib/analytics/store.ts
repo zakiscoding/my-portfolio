@@ -3,7 +3,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { currentUser } from "@clerk/nextjs/server";
 import { serverClient } from "@/sanity/lib/serverClient";
 import { openAnalytics, sealAnalytics, verifiedAnalyticsOwner } from "./crypto";
-import { DEFAULT_ANALYTICS_OWNER_EMAIL } from "./owner";
+import { analyticsOwnerEmail } from "./owner";
 
 export type AnalyticsEvent = {
   kind:
@@ -54,9 +54,8 @@ export async function isAnalyticsOwner() {
   )
     return false;
   const user = await currentUser();
-  const allowed = (
-    process.env.ANALYTICS_OWNER_EMAIL || DEFAULT_ANALYTICS_OWNER_EMAIL
-  ).toLowerCase();
+  const allowed = analyticsOwnerEmail();
+  if (!allowed) return false;
   return verifiedAnalyticsOwner(user?.emailAddresses || [], allowed);
 }
 export async function storeEvent(event: AnalyticsEvent, id?: string) {

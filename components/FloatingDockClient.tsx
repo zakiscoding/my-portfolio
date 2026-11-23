@@ -17,23 +17,46 @@ type HeaderProps = {
   authEnabled?: boolean;
   chatEnabled?: boolean;
   isSignedIn?: boolean;
-  analyticsOwnerEmail?: string;
+  analyticsOwnerHash?: string;
   canViewAnalytics?: boolean;
   onSignOut?: () => void;
 };
 
+async function sha256Hex(value: string) {
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(value),
+  );
+  return Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
+}
+
 function AuthenticatedHeader(props: HeaderProps) {
   const { isSignedIn, user } = useUser();
-  const canViewAnalytics = Boolean(
-    isSignedIn &&
-      props.analyticsOwnerEmail &&
-      user?.emailAddresses.some(
-        (email) =>
-          email.emailAddress.toLowerCase() ===
-            props.analyticsOwnerEmail?.trim().toLowerCase() &&
-          email.verification?.status === "verified",
-      ),
-  );
+  const [canViewAnalytics, setCanViewAnalytics] = useState(false);
+  const ownerHash = props.analyticsOwnerHash;
+  const verifiedEmails = (user?.emailAddresses || [])
+    .filter((email) => email.verification?.status === "verified")
+    .map((email) => email.emailAddress.trim().toLowerCase())
+    .join("
+");
+  useEffect(() => {
+    let active = true;
+    if (!isSignedIn || !ownerHash || !verifiedEmails) {
+      setCanViewAnalytics(false);
+      return;
+    }
+    void Promise.all(verifiedEmails.split("
+").map(sha256Hex)).then(
+      (hashes) => {
+        if (active) setCanViewAnalytics(hashes.includes(ownerHash));
+      },
+    );
+    return () => {
+      active = false;
+    };
+  }, [isSignedIn, ownerHash, verifiedEmails]);
   const { signOut } = useClerk();
   return (
     <Header

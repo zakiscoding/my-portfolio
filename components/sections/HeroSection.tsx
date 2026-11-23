@@ -7,7 +7,6 @@ import { isChatConfigured } from "@/lib/integrations";
 import { branding } from "@/lib/portfolio";
 import { sanityFetch } from "@/sanity/lib/live";
 import { HeroChatAvatar } from "./HeroChatAvatar";
-import { ResumeDownloads } from "./ResumeDownloads";
 
 const HERO_QUERY = defineQuery(`*[_id == "singleton-profile"][0]{
   firstName,
@@ -72,7 +71,6 @@ export async function HeroSection() {
                 {branding.introduction}
               </p>
 
-              <ResumeDownloads />
               {profile.socialLinks && (
                 <div className="flex flex-wrap gap-3 @md/hero:gap-4 pt-4">
                   {profile.socialLinks.github && (
