@@ -13,7 +13,6 @@ const navItems = [
     href: "#contributions",
     icon: "IconGitPullRequest",
   },
-  { title: "Contact", href: "#contact", icon: "IconMail" },
   { title: "About", href: "#about", icon: "IconUser" },
   { title: "Education", href: "#education", icon: "IconSchool" },
   { title: "Certifications", href: "#certifications", icon: "IconAward" },

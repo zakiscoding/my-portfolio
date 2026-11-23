@@ -286,11 +286,7 @@ export default function ChatWrapper({
           <div className="chat-state">
             <p>The AI Twin is currently unavailable.</p>
             <p className="text-sm text-muted-foreground">
-              You can still explore my experience and projects, or{" "}
-              <a href="#contact" className="underline">
-                contact me directly
-              </a>
-              .
+              You can still explore my experience and projects.
             </p>
           </div>
         )}

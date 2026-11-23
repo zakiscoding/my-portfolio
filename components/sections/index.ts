@@ -2,8 +2,6 @@ export { AboutSection } from "./AboutSection";
 export { AchievementsSection } from "./AchievementsSection";
 export { BlogSection } from "./BlogSection";
 export { CertificationsSection } from "./CertificationsSection";
-export { ContactForm } from "./ContactForm";
-export { ContactSection } from "./ContactSection";
 export { EducationSection } from "./EducationSection";
 export { ExperienceSection } from "./ExperienceSection";
 export { HeroSection } from "./HeroSection";
