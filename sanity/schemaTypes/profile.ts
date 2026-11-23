@@ -84,12 +84,16 @@ export default defineType({
       name: "email",
       title: "Email",
       type: "string",
-      validation: (Rule) => Rule.required().email(),
+      description:
+        "Optional. Not shown on the public portfolio; clear this field to keep it private.",
+      validation: (Rule) => Rule.email(),
     }),
     defineField({
       name: "phone",
       title: "Phone Number",
       type: "string",
+      description:
+        "Optional. Not shown on the public portfolio; clear this field to keep it private.",
     }),
     defineField({
       name: "location",
